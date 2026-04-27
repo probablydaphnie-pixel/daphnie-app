@@ -1,0 +1,22 @@
+Terms of Service for Posting Helper
+
+Last updated: April 25, 2026
+
+1. Overview
+Posting Helper is a personal automation tool developed and used exclusively by Alistair Hayes to schedule and upload original music video content to TikTok. The App is not a public service and is not available to any other users.
+
+2. Use of the App
+This App is intended solely for personal use by its developer. It interacts with the TikTok API to upload videos to the developer's own TikTok account (@probablydaphnie). All content uploaded through the App is original music content owned by the developer.
+
+3. TikTok Platform
+Use of this App is subject to TikTok's Terms of Service available at https://www.tiktok.com/legal/terms-of-service. The App operates in compliance with TikTok's Developer Terms and Content Posting API guidelines.
+
+4. Intellectual Property
+All video content uploaded through the App is original content created and owned by Alistair Hayes. The App does not upload any third-party copyrighted material.
+
+5. Limitation of Liability
+The App is provided as-is for personal use. The developer accepts no liability for any issues arising from its use.
+
+6. Contact
+Alistair Hayes
+Email: [your email address]

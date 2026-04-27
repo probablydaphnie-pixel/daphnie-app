@@ -1,0 +1,32 @@
+Privacy Policy for Posting Helper
+
+Last updated: April 25, 2026
+
+This Privacy Policy describes how Posting Helper ("the App") handles information in connection with its use of the TikTok API.
+
+1. Overview
+Posting Helper is a personal automation tool used exclusively by its developer (Alistair Hayes) to upload original music content to a single TikTok account (@probablydaphnie). The App is not available to the public and has no end users other than its developer.
+
+2. Information We Collect
+The App accesses the following data solely to perform video uploads:
+- TikTok OAuth access tokens, used to authenticate upload requests
+- Video files stored locally on the developer's own computer
+
+The App does not collect, store, or transmit any personal data from any third party.
+
+3. How We Use Information
+Access tokens are used exclusively to authenticate API calls to upload videos to the developer's own TikTok account. No data is shared with any third party. No analytics or tracking of any kind is performed.
+
+4. Data Storage
+OAuth tokens are stored locally in a configuration file on the developer's personal computer. No data is stored on any server or cloud service.
+
+5. Third Party Services
+The App interacts with the TikTok API in accordance with TikTok's Terms of Service and Developer Policies. Please refer to TikTok's own Privacy Policy at https://www.tiktok.com/legal/privacy-policy for information about how TikTok handles data.
+
+6. Contact
+If you have any questions about this Privacy Policy, please contact:
+Alistair Hayes
+Email: [your email address]
+
+7. Changes to This Policy
+This Privacy Policy may be updated from time to time. Any changes will be reflected with an updated date at the top of this document.
