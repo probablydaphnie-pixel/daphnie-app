@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Us</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Serif+Display&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 400;
+      background: #f5f3ef;
+      color: #1a1a1a;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 1.5rem;
+    }
+
+    .page-wrap {
+      width: 100%;
+      max-width: 560px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+
+    .header-eyebrow {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #888;
+      margin-bottom: 0.75rem;
+    }
+
+    .header h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2.4rem;
+      font-weight: 400;
+      color: #1a1a1a;
+      line-height: 1.15;
+      margin-bottom: 0.75rem;
+    }
+
+    .header p {
+      font-size: 0.95rem;
+      color: #666;
+      line-height: 1.7;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      border: 1px solid #e8e4dd;
+      padding: 2.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+
+    label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #555;
+      margin-bottom: 0.5rem;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    select,
+    textarea {
+      width: 100%;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      color: #1a1a1a;
+      background: #faf9f7;
+      border: 1px solid #ddd9d2;
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      appearance: none;
+    }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    select:focus,
+    textarea:focus {
+      border-color: #bbb;
+      box-shadow: 0 0 0 3px rgba(0,0,0,0.05);
+      background: #fff;
+    }
+
+    .select-wrap {
+      position: relative;
+    }
+
+    .select-wrap::after {
+      content: '▾';
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #999;
+      pointer-events: none;
+      font-size: 0.85rem;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 120px;
+      line-height: 1.6;
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid #ede9e2;
+      margin: 1.75rem 0;
+    }
+
+    .submit-btn {
+      width: 100%;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: #fff;
+      background: #1a1a1a;
+      border: none;
+      border-radius: 8px;
+      padding: 0.85rem 1.5rem;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      letter-spacing: 0.02em;
+    }
+
+    .submit-btn:hover { background: #333; }
+    .submit-btn:active { transform: scale(0.99); }
+
+    .success-msg {
+      display: none;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .success-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: #f0f7ed;
+      border: 1px solid #c3deba;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+      font-size: 1.4rem;
+    }
+
+    .success-msg h2 {
+      font-family: 'DM Serif Display', serif;
+      font-weight: 400;
+      font-size: 1.4rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .success-msg p {
+      font-size: 0.9rem;
+      color: #666;
+      line-height: 1.6;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    @media (max-width: 480px) {
+      .form-row { grid-template-columns: 1fr; }
+      .card { padding: 1.75rem 1.25rem; }
+      .header h1 { font-size: 1.9rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page-wrap">
+
+    <header class="header">
+      <p class="header-eyebrow">Get in touch</p>
+      <h1>Contact Us</h1>
+      <p>Have a question about our Privacy Policy or Terms of Service?<br>We'll get back to you as soon as we can.</p>
+    </header>
+
+    <div class="card">
+
+      <form id="contactForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="firstName">First name</label>
+            <input type="text" id="firstName" name="firstName" placeholder="Jane" required />
+          </div>
+          <div class="form-group">
+            <label for="lastName">Last name</label>
+            <input type="text" id="lastName" name="lastName" placeholder="Smith" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email address</label>
+          <input type="email" id="email" name="email" placeholder="jane@example.com" required />
+        </div>
+
+        <div class="form-group">
+          <label for="topic">What is this about?</label>
+          <div class="select-wrap">
+            <select id="topic" name="topic" required>
+              <option value="" disabled selected>Select a topic…</option>
+              <option value="privacy-policy">Privacy Policy</option>
+              <option value="terms-of-service">Terms of Service</option>
+              <option value="data-request">Data access or deletion request</option>
+              <option value="other">Something else</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="message">Your message</label>
+          <textarea id="message" name="message" placeholder="Tell us what's on your mind…" required></textarea>
+        </div>
+
+        <hr class="divider" />
+
+        <button type="submit" class="submit-btn">Send message →</button>
+
+      </form>
+
+      <div class="success-msg" id="successMsg">
+        <div class="success-icon">✓</div>
+        <h2>Message sent</h2>
+        <p>Thanks for reaching out. We'll reply to your email within a couple of business days.</p>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+    const form = document.getElementById('contactForm');
+    const success = document.getElementById('successMsg');
+
+    form.addEventListener('submit', async function(e) {
+      const action = form.getAttribute('action');
+
+      if (action.includes('YOUR_FORM_ID')) {
+        e.preventDefault();
+        form.style.display = 'none';
+        success.style.display = 'block';
+        return;
+      }
+
+      e.preventDefault();
+      const data = new FormData(form);
+
+      try {
+        const res = await fetch(action, {
+          method: 'POST',
+          body: data,
+          headers: { 'Accept': 'application/json' }
+        });
+
+        if (res.ok) {
+          form.style.display = 'none';
+          success.style.display = 'block';
+        } else {
+          alert('Something went wrong. Please try again or email us directly.');
+        }
+      } catch {
+        alert('Something went wrong. Please check your connection and try again.');
+      }
+    });
+  </script>
+
+</body>
+</html>
