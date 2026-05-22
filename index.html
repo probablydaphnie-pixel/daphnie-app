@@ -7,431 +7,385 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg:#080808;--surface:#111;--surface2:#181818;--border:#222;
-      --text:#f0ede8;--muted:#666;--accent:#c8ff00;--accent-dim:rgba(200,255,0,0.08);
-      --green:#00e676;--red:#ff4444;
+      --bg: #080808;
+      --surface: #111;
+      --surface2: #181818;
+      --border: #222;
+      --text: #f0ede8;
+      --muted: #666;
+      --accent: #c8ff00;
+      --accent-dim: rgba(200,255,0,0.08);
+      --green: #00e676;
     }
-    *{margin:0;padding:0;box-sizing:border-box;}
-    body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh;}
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 300; min-height: 100vh; overflow-x: hidden; }
+    nav { display: flex; align-items: center; justify-content: space-between; padding: 24px 48px; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: rgba(8,8,8,0.92); backdrop-filter: blur(12px); z-index: 100; }
+    .nav-logo { font-family: 'DM Serif Display', serif; font-size: 20px; }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 32px; }
+    .nav-links a { color: var(--muted); font-size: 13px; text-decoration: none; letter-spacing: 0.05em; text-transform: uppercase; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text); }
 
-    nav{display:flex;align-items:center;justify-content:space-between;padding:20px 48px;border-bottom:1px solid var(--border);position:sticky;top:0;background:rgba(8,8,8,0.95);backdrop-filter:blur(12px);z-index:100;}
-    .nav-logo{font-family:'DM Serif Display',serif;font-size:20px;}
-    .nav-logo span{color:var(--accent);}
-    .nav-links{display:flex;gap:28px;align-items:center;}
-    .nav-links a{color:var(--muted);font-size:13px;text-decoration:none;text-transform:uppercase;letter-spacing:0.05em;transition:color 0.2s;}
-    .nav-links a:hover{color:var(--text);}
+    .hero { padding: 100px 48px 80px; max-width: 1100px; margin: 0 auto; }
+    .hero-label { display: inline-flex; align-items: center; gap: 8px; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); background: var(--accent-dim); border: 1px solid rgba(200,255,0,0.2); padding: 6px 14px; border-radius: 100px; margin-bottom: 40px; }
+    .hero-label::before { content: ''; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.3} }
+    h1 { font-family: 'DM Serif Display', serif; font-size: clamp(48px, 7vw, 88px); line-height: 1.0; letter-spacing: -0.03em; margin-bottom: 28px; }
+    h1 em { font-style: italic; color: var(--muted); }
+    .hero-sub { font-size: 17px; color: var(--muted); max-width: 520px; line-height: 1.7; margin-bottom: 52px; }
+    .hero-cta { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+    .btn-primary { display: inline-flex; align-items: center; gap: 10px; background: var(--accent); color: #000; border: none; border-radius: 6px; padding: 14px 28px; font-size: 14px; font-weight: 500; cursor: pointer; text-decoration: none; transition: all 0.2s; font-family: 'DM Sans', sans-serif; }
+    .btn-primary:hover { background: #d4ff1a; transform: translateY(-1px); }
+    .btn-ghost { color: var(--muted); font-size: 13px; text-decoration: none; transition: color 0.2s; }
+    .btn-ghost:hover { color: var(--text); }
 
-    .hero{padding:80px 48px 60px;max-width:1000px;margin:0 auto;text-align:center;}
-    .badge{display:inline-flex;align-items:center;gap:8px;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);background:var(--accent-dim);border:1px solid rgba(200,255,0,0.2);padding:6px 16px;border-radius:100px;margin-bottom:32px;}
-    .badge::before{content:'';width:6px;height:6px;background:var(--accent);border-radius:50%;animation:pulse 2s infinite;}
-    @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
-    h1{font-family:'DM Serif Display',serif;font-size:clamp(40px,6vw,72px);line-height:1.05;letter-spacing:-0.03em;margin-bottom:20px;}
-    h1 em{font-style:italic;color:var(--muted);}
-    .hero-sub{font-size:16px;color:var(--muted);max-width:500px;margin:0 auto 40px;line-height:1.7;}
-    .hero-cta{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
-    .btn-primary{display:inline-flex;align-items:center;gap:10px;background:var(--accent);color:#000;border:none;border-radius:6px;padding:13px 26px;font-size:14px;font-weight:500;cursor:pointer;text-decoration:none;font-family:'DM Sans',sans-serif;transition:all 0.2s;}
-    .btn-primary:hover{background:#d4ff1a;transform:translateY(-1px);}
-    .btn-ghost{color:var(--muted);font-size:13px;text-decoration:none;display:flex;align-items:center;transition:color 0.2s;padding:13px 0;}
-    .btn-ghost:hover{color:var(--text);}
+    .stats { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); display: flex; margin: 0 48px; }
+    .stat { flex: 1; padding: 28px 40px; border-right: 1px solid var(--border); }
+    .stat:last-child { border-right: none; }
+    .stat-value { font-family: 'DM Serif Display', serif; font-size: 36px; letter-spacing: -0.02em; margin-bottom: 6px; }
+    .stat-label { font-size: 12px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
 
-    /* Scope pills */
-    .scope-pills{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:28px;}
-    .scope-pill{display:inline-flex;align-items:center;gap:6px;font-family:'DM Mono',monospace;font-size:11px;padding:5px 12px;border-radius:100px;border:1px solid var(--border);color:var(--muted);}
-    .scope-pill.active{border-color:rgba(200,255,0,0.3);color:var(--accent);background:var(--accent-dim);}
+    .workflow { padding: 100px 48px; max-width: 1100px; margin: 0 auto; }
+    .section-label { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; }
+    .section-label span { color: var(--accent); margin-right: 8px; }
+    .section-title { font-family: 'DM Serif Display', serif; font-size: clamp(32px, 4vw, 52px); letter-spacing: -0.02em; margin-bottom: 64px; line-height: 1.1; }
 
-    /* How it works */
-    .section{padding:60px 48px;max-width:1100px;margin:0 auto;}
-    .section-label{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:16px;}
-    .section-label span{color:var(--accent);margin-right:8px;}
-    .section-title{font-family:'DM Serif Display',serif;font-size:clamp(28px,4vw,44px);letter-spacing:-0.02em;margin-bottom:48px;line-height:1.1;}
+    .steps { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2px; }
+    .step { background: var(--surface); padding: 40px 36px; position: relative; overflow: hidden; cursor: pointer; transition: background 0.3s; }
+    .step:hover, .step.active { background: var(--surface2); }
+    .step::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: var(--accent); transform: scaleX(0); transition: transform 0.3s; transform-origin: left; }
+    .step:hover::after, .step.active::after { transform: scaleX(1); }
+    .step-num { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.1em; margin-bottom: 32px; }
+    .step-icon { font-size: 28px; margin-bottom: 20px; display: block; }
+    .step h3 { font-size: 17px; font-weight: 500; margin-bottom: 12px; letter-spacing: -0.01em; }
+    .step p { font-size: 13px; color: var(--muted); line-height: 1.7; }
 
-    .flow-steps{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px;margin-bottom:2px;}
-    .flow-step{background:var(--surface);padding:36px;position:relative;cursor:pointer;transition:background 0.2s;}
-    .flow-step:hover,.flow-step.active{background:var(--surface2);}
-    .flow-step::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--accent);transform:scaleX(0);transition:transform 0.3s;transform-origin:left;}
-    .flow-step:hover::after,.flow-step.active::after{transform:scaleX(1);}
-    .step-num{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);margin-bottom:20px;letter-spacing:0.08em;}
-    .step-icon{font-size:24px;margin-bottom:14px;display:block;}
-    .flow-step h3{font-size:16px;font-weight:500;margin-bottom:8px;}
-    .flow-step p{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:12px;}
-    .scope-tag{display:inline-flex;align-items:center;gap:4px;font-family:'DM Mono',monospace;font-size:10px;padding:3px 8px;border-radius:4px;background:var(--accent-dim);color:var(--accent);border:1px solid rgba(200,255,0,0.15);}
+    .demo-area { margin-top: 2px; background: var(--surface); padding: 60px 48px; }
+    .demo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; max-width: 900px; margin: 0 auto; }
+    .drop-zone { border: 1px dashed var(--border); border-radius: 12px; padding: 40px 32px; text-align: center; transition: all 0.3s; cursor: pointer; position: relative; background: var(--bg); }
+    .drop-zone:hover { border-color: var(--accent); background: var(--accent-dim); }
+    .drop-zone.uploaded { border-color: var(--green); border-style: solid; background: rgba(0,230,118,0.04); }
+    .drop-zone-icon { font-size: 32px; margin-bottom: 16px; display: block; }
+    .drop-zone h4 { font-size: 15px; font-weight: 500; margin-bottom: 8px; }
+    .drop-zone p { font-size: 12px; color: var(--muted); line-height: 1.6; }
+    .drop-zone input { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+    .file-list { margin-top: 16px; text-align: left; }
+    .file-item { display: flex; align-items: center; gap: 10px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--green); padding: 6px 0; border-bottom: 1px solid var(--border); }
+    .file-item::before { content: '✓'; }
 
-    /* Demo area */
-    .demo-area{background:var(--surface);padding:48px;}
-    .demo-title{text-align:center;margin-bottom:36px;}
-    .demo-title h3{font-family:'DM Serif Display',serif;font-size:26px;letter-spacing:-0.02em;margin-bottom:8px;}
-    .demo-title p{color:var(--muted);font-size:13px;}
-    .demo-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:860px;margin:0 auto;}
-    .drop-zone{border:1px dashed var(--border);border-radius:10px;padding:36px 28px;text-align:center;cursor:pointer;position:relative;background:var(--bg);transition:all 0.3s;}
-    .drop-zone:hover,.drop-zone.dragover{border-color:var(--accent);background:var(--accent-dim);}
-    .drop-zone.uploaded{border-color:var(--green);border-style:solid;background:rgba(0,230,118,0.04);}
-    .drop-zone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
-    .drop-zone-icon{font-size:28px;margin-bottom:12px;display:block;}
-    .drop-zone h4{font-size:14px;font-weight:500;margin-bottom:6px;}
-    .drop-zone p{font-size:12px;color:var(--muted);}
-    .file-list{margin-top:14px;text-align:left;}
-    .file-item{display:flex;align-items:center;gap:8px;font-family:'DM Mono',monospace;font-size:11px;color:var(--green);padding:5px 0;border-bottom:1px solid var(--border);}
-    .file-item::before{content:'✓';}
-    .post-controls{text-align:center;margin-top:28px;}
-    .btn-post{display:inline-flex;align-items:center;gap:12px;background:var(--surface2);color:var(--muted);border:1px solid var(--border);border-radius:8px;padding:15px 40px;font-size:14px;font-weight:500;cursor:not-allowed;font-family:'DM Sans',sans-serif;transition:all 0.3s;}
-    .btn-post.ready{background:var(--accent);color:#000;border-color:var(--accent);cursor:pointer;animation:readyPulse 2s infinite;}
-    @keyframes readyPulse{0%,100%{box-shadow:0 0 0 0 rgba(200,255,0,0.4)}50%{box-shadow:0 0 0 10px rgba(200,255,0,0)}}
-    .posting-status{display:none;max-width:500px;margin:28px auto 0;}
-    .posting-status.visible{display:block;}
-    .platform-row{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:var(--bg);border:1px solid var(--border);border-radius:8px;margin-bottom:8px;font-size:13px;}
-    .platform-info{display:flex;align-items:center;gap:10px;}
-    .platform-scope{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);margin-left:4px;}
-    .status-badge{font-family:'DM Mono',monospace;font-size:11px;padding:3px 10px;border-radius:100px;background:var(--surface);color:var(--muted);}
-    .status-badge.uploading{color:var(--accent);background:var(--accent-dim);animation:blink 1s infinite;}
-    @keyframes blink{0%,100%{opacity:1}50%{opacity:0.5}}
-    .status-badge.done{color:var(--green);background:rgba(0,230,118,0.08);}
-    .success-banner{display:none;text-align:center;padding:24px;background:rgba(0,230,118,0.06);border:1px solid rgba(0,230,118,0.2);border-radius:10px;margin-top:20px;}
-    .success-banner.visible{display:block;}
-    .success-banner h3{font-family:'DM Serif Display',serif;font-size:22px;color:var(--green);margin-bottom:6px;}
-    .success-banner p{font-size:13px;color:var(--muted);}
+    .post-controls { text-align: center; margin-top: 32px; }
+    .btn-post { display: inline-flex; align-items: center; gap: 12px; background: var(--surface2); color: var(--muted); border: 1px solid var(--border); border-radius: 8px; padding: 16px 40px; font-size: 15px; font-weight: 500; cursor: not-allowed; font-family: 'DM Sans', sans-serif; transition: all 0.3s; }
+    .btn-post.ready { background: var(--accent); color: #000; border-color: var(--accent); cursor: pointer; animation: readyPulse 2s infinite; }
+    @keyframes readyPulse { 0%,100%{box-shadow:0 0 0 0 rgba(200,255,0,0.4)}50%{box-shadow:0 0 0 12px rgba(200,255,0,0)} }
 
-    /* Connect */
-    .connect-section{padding:60px 48px;max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;}
-    .connect-text h2{font-family:'DM Serif Display',serif;font-size:clamp(28px,4vw,44px);letter-spacing:-0.02em;margin-bottom:16px;line-height:1.1;}
-    .connect-text p{color:var(--muted);font-size:15px;line-height:1.8;margin-bottom:28px;}
-    .scope-list{list-style:none;margin-bottom:32px;}
-    .scope-list li{display:flex;align-items:flex-start;gap:14px;padding:14px 0;border-bottom:1px solid var(--border);}
-    .scope-icon{width:32px;height:32px;background:var(--accent-dim);border:1px solid rgba(200,255,0,0.2);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
-    .scope-info strong{display:block;font-family:'DM Mono',monospace;font-size:12px;color:var(--accent);margin-bottom:3px;}
-    .scope-info span{font-size:12px;color:var(--muted);line-height:1.5;}
-    .scope-info em{display:block;font-size:11px;color:var(--muted);margin-top:2px;font-style:normal;opacity:0.7;}
-    .connect-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:40px 36px;text-align:center;position:sticky;top:100px;}
-    .app-icon{width:64px;height:64px;background:linear-gradient(135deg,#c8ff00,#00e5ff);border-radius:16px;margin:0 auto 20px;display:flex;align-items:center;justify-content:center;font-size:28px;}
-    .connect-card h3{font-family:'DM Serif Display',serif;font-size:22px;margin-bottom:8px;}
-    .connect-card p{color:var(--muted);font-size:13px;margin-bottom:28px;line-height:1.6;}
-    .tiktok-btn{display:flex;align-items:center;justify-content:center;gap:12px;background:#fff;color:#000;border:none;border-radius:8px;padding:14px 24px;font-size:14px;font-weight:600;cursor:pointer;width:100%;font-family:'DM Sans',sans-serif;transition:all 0.2s;text-decoration:none;}
-    .tiktok-btn:hover{background:#f0f0f0;transform:translateY(-1px);}
-    .tiktok-btn svg{width:18px;height:18px;}
-    .connect-notice{font-size:11px;color:var(--muted);margin-top:16px;line-height:1.5;}
-    .connect-status{display:none;margin-top:16px;padding:12px 16px;background:rgba(0,230,118,0.08);border:1px solid rgba(0,230,118,0.2);border-radius:8px;font-size:13px;color:var(--green);}
-    .connect-status.visible{display:block;}
+    .posting-status { display: none; max-width: 480px; margin: 32px auto 0; }
+    .posting-status.visible { display: block; }
+    .platform-row { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 8px; font-size: 13px; }
+    .platform-name { display: flex; align-items: center; gap: 10px; }
+    .platform-status { font-family: 'DM Mono', monospace; font-size: 11px; padding: 3px 10px; border-radius: 100px; background: var(--surface); color: var(--muted); }
+    .platform-status.uploading { color: var(--accent); background: var(--accent-dim); animation: blink 1s infinite; }
+    @keyframes blink { 0%,100%{opacity:1}50%{opacity:0.5} }
+    .platform-status.done { color: var(--green); background: rgba(0,230,118,0.08); }
 
-    /* Sandbox section */
-    .sandbox-section{padding:40px 48px;background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
-    .sandbox-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
-    .sandbox-text h2{font-family:'DM Serif Display',serif;font-size:28px;letter-spacing:-0.02em;margin-bottom:12px;}
-    .sandbox-text p{color:var(--muted);font-size:14px;line-height:1.7;margin-bottom:20px;}
-    .sandbox-badge{display:inline-flex;align-items:center;gap:6px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;background:rgba(0,230,118,0.08);border:1px solid rgba(0,230,118,0.2);color:var(--green);padding:5px 12px;border-radius:100px;margin-bottom:20px;}
-    .api-flow{background:var(--bg);border:1px solid var(--border);border-radius:10px;overflow:hidden;}
-    .api-step{display:flex;align-items:center;gap:14px;padding:14px 18px;border-bottom:1px solid var(--border);}
-    .api-step:last-child{border-bottom:none;}
-    .api-num{width:24px;height:24px;background:var(--accent-dim);border:1px solid rgba(200,255,0,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:10px;color:var(--accent);flex-shrink:0;}
-    .api-step-text strong{display:block;font-size:12px;font-weight:500;margin-bottom:2px;}
-    .api-step-text span{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;}
+    .success-banner { display: none; text-align: center; padding: 28px; background: rgba(0,230,118,0.06); border: 1px solid rgba(0,230,118,0.2); border-radius: 12px; margin-top: 24px; }
+    .success-banner.visible { display: block; }
+    .success-banner h3 { font-family: 'DM Serif Display', serif; font-size: 24px; color: var(--green); margin-bottom: 8px; }
+    .success-banner p { font-size: 13px; color: var(--muted); }
 
-    footer{border-top:1px solid var(--border);padding:32px 48px;display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:12px;}
-    footer a{color:var(--muted);text-decoration:none;transition:color 0.2s;}
-    footer a:hover{color:var(--text);}
+    .connect-section { padding: 100px 48px; max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    .connect-text h2 { font-family: 'DM Serif Display', serif; font-size: clamp(32px, 4vw, 48px); letter-spacing: -0.02em; margin-bottom: 20px; line-height: 1.1; }
+    .connect-text p { color: var(--muted); font-size: 15px; line-height: 1.8; margin-bottom: 36px; }
+    .permissions-list { list-style: none; margin-bottom: 40px; }
+    .permissions-list li { display: flex; align-items: flex-start; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
+    .perm-icon { width: 28px; height: 28px; background: var(--accent-dim); border: 1px solid rgba(200,255,0,0.2); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; }
+    .perm-text strong { display: block; font-size: 13px; font-weight: 500; margin-bottom: 2px; }
+    .perm-text span { font-size: 12px; color: var(--muted); }
+    .connect-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 48px 40px; text-align: center; }
+    .app-icon { width: 72px; height: 72px; background: linear-gradient(135deg, #c8ff00, #00e5ff); border-radius: 18px; margin: 0 auto 24px; display: flex; align-items: center; justify-content: center; font-size: 32px; }
+    .connect-card h3 { font-family: 'DM Serif Display', serif; font-size: 24px; margin-bottom: 10px; }
+    .connect-card p { color: var(--muted); font-size: 13px; margin-bottom: 32px; line-height: 1.6; }
+    .tiktok-login-btn { display: flex; align-items: center; justify-content: center; gap: 12px; background: #fff; color: #000; border: none; border-radius: 8px; padding: 15px 28px; font-size: 14px; font-weight: 600; cursor: pointer; width: 100%; font-family: 'DM Sans', sans-serif; transition: all 0.2s; text-decoration: none; }
+    .tiktok-login-btn:hover { background: #f0f0f0; transform: translateY(-1px); }
+    .tiktok-login-btn svg { width: 18px; height: 18px; }
+    .connect-status { display: none; margin-top: 20px; padding: 14px 20px; background: rgba(0,230,118,0.08); border: 1px solid rgba(0,230,118,0.2); border-radius: 8px; font-size: 13px; color: var(--green); }
+    .connect-status.visible { display: block; }
 
-    @media(max-width:768px){
-      nav{padding:16px 24px;}
-      .hero,.section{padding:40px 24px;}
-      .flow-steps{grid-template-columns:1fr;}
-      .demo-area{padding:32px 24px;}
-      .demo-grid{grid-template-columns:1fr;}
-      .connect-section{padding:40px 24px;grid-template-columns:1fr;gap:40px;}
-      .connect-card{position:static;}
-      .sandbox-section{padding:40px 24px;}
-      .sandbox-inner{grid-template-columns:1fr;gap:32px;}
-      footer{padding:24px;flex-direction:column;gap:12px;}
+    footer { border-top: 1px solid var(--border); padding: 40px 48px; display: flex; justify-content: space-between; align-items: center; color: var(--muted); font-size: 12px; }
+    footer a { color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    footer a:hover { color: var(--text); }
+
+    @media (max-width: 768px) {
+      nav { padding: 20px 24px; }
+      .hero { padding: 60px 24px 48px; }
+      .stats { margin: 0; flex-wrap: wrap; }
+      .stat { border-right: none; border-bottom: 1px solid var(--border); padding: 24px; flex: 0 0 50%; }
+      .workflow { padding: 60px 24px; }
+      .steps { grid-template-columns: 1fr; }
+      .demo-area { padding: 40px 24px; }
+      .demo-grid { grid-template-columns: 1fr; }
+      .connect-section { padding: 60px 24px; grid-template-columns: 1fr; gap: 40px; }
+      footer { padding: 32px 24px; flex-direction: column; gap: 16px; }
     }
   </style>
 </head>
 <body>
 
-<nav>
-  <div class="nav-logo">Daphnie<span>.</span>app</div>
-  <div class="nav-links">
-    <a href="#how-it-works">How it works</a>
-    <a href="#connect">Connect TikTok</a>
-    <a href="#sandbox">API</a>
-    <a href="privacy-policy.html">Privacy</a>
-    <a href="terms-of-service.html">Terms</a>
-  </div>
-</nav>
-
-<section class="hero">
-  <div class="badge">Music Distribution Platform</div>
-  <h1>Publish your music<br><em>everywhere, automatically</em></h1>
-  <p class="hero-sub">Daphnie App schedules and publishes original music video content to TikTok, Instagram, and YouTube — helping independent artists grow their audience through consistent, automated posting.</p>
-  <div class="hero-cta">
-    <a href="#connect" class="btn-primary">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.31 6.31 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.75a4.85 4.85 0 01-1.01-.06z"/></svg>
-      Connect with TikTok
-    </a>
-    <a href="#how-it-works" class="btn-ghost">See how it works →</a>
-  </div>
-  <div class="scope-pills">
-    <div class="scope-pill active">✓ Login Kit</div>
-    <div class="scope-pill active">✓ Content Posting API</div>
-    <div class="scope-pill active">✓ user.info.basic</div>
-    <div class="scope-pill active">✓ video.publish</div>
-    <div class="scope-pill active">✓ video.upload</div>
-  </div>
-</section>
-
-<section class="section" id="how-it-works">
-  <div class="section-label"><span>01</span> Platform overview</div>
-  <h2 class="section-title">How Daphnie App works</h2>
-
-  <div class="flow-steps">
-    <div class="flow-step active" onclick="setStep(0)">
-      <div class="step-num">STEP 01 — Login Kit</div>
-      <span class="step-icon">🔐</span>
-      <h3>Connect your TikTok account</h3>
-      <p>Artists authenticate using TikTok's Login Kit. The platform verifies account identity before enabling publishing features.</p>
-      <div><span class="scope-tag">user.info.basic</span></div>
+  <nav>
+    <div class="nav-logo">Daphnie<span>.</span>app</div>
+    <div class="nav-links">
+      <a href="#how-it-works">How it works</a>
+      <a href="#connect">Connect</a>
+      <a href="privacy-policy.html">Privacy</a>
+      <a href="terms-of-service.html">Terms</a>
     </div>
-    <div class="flow-step" onclick="setStep(1)">
-      <div class="step-num">STEP 02 — Content Posting API</div>
-      <span class="step-icon">📤</span>
-      <h3>Upload your video</h3>
-      <p>Video files are transferred to TikTok's upload endpoint in chunks. The platform uses video.upload to handle the file transfer securely.</p>
-      <div><span class="scope-tag">video.upload</span></div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-label">Music Distribution Platform</div>
+    <h1>Publish your music<br><em>everywhere, automatically</em></h1>
+    <p class="hero-sub">Daphnie App schedules and distributes original music video content to TikTok, Instagram, and YouTube — so independent artists can focus on creating, not posting.</p>
+    <div class="hero-cta">
+      <a href="#connect" class="btn-primary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.31 6.31 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.75a4.85 4.85 0 01-1.01-.06z"/></svg>
+        Connect TikTok
+      </a>
+      <a href="#how-it-works" class="btn-ghost">See how it works →</a>
     </div>
-    <div class="flow-step" onclick="setStep(2)">
-      <div class="step-num">STEP 03 — Content Posting API</div>
-      <span class="step-icon">🚀</span>
-      <h3>Publish to TikTok</h3>
-      <p>Once uploaded, the video is published to the artist's TikTok account on a scheduled basis — twice daily, automatically.</p>
-      <div><span class="scope-tag">video.publish</span></div>
+  </section>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-value">2×</div>
+      <div class="stat-label">Posts per day</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">3</div>
+      <div class="stat-label">Platforms simultaneously</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">100%</div>
+      <div class="stat-label">Original quality</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">0</div>
+      <div class="stat-label">Manual steps after setup</div>
     </div>
   </div>
 
-  <!-- Interactive Demo -->
-  <div class="demo-area">
-    <div class="demo-title">
-      <h3>Try the platform</h3>
-      <p>Add your video files and schedule — the platform handles the rest</p>
-    </div>
-    <div class="demo-grid">
-      <div class="drop-zone" id="videoZone" onclick="simulateUpload('video')">
-        <input type="file" accept="video/*" onchange="handleFile(event,'video')" onclick="event.stopPropagation()">
-        <span class="drop-zone-icon">🎬</span>
-        <h4>Drop video files here</h4>
-        <p>MP4, MOV — your music video clips</p>
-        <div class="file-list" id="videoList"></div>
-      </div>
-      <div class="drop-zone" id="csvZone" onclick="simulateUpload('csv')">
-        <input type="file" accept=".csv" onchange="handleFile(event,'csv')" onclick="event.stopPropagation()">
-        <span class="drop-zone-icon">📋</span>
-        <h4>Drop posting schedule here</h4>
-        <p>Captions, hashtags, and post timing</p>
-        <div class="file-list" id="csvList"></div>
-      </div>
-    </div>
-    <div class="post-controls">
-      <button class="btn-post" id="postBtn" onclick="startPosting()" disabled>
-        <span id="postBtnIcon">⬆</span>
-        <span id="postBtnText">Add files to continue</span>
-      </button>
-    </div>
-    <div class="posting-status" id="postingStatus">
-      <div class="platform-row">
-        <div class="platform-info">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.31 6.31 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.75a4.85 4.85 0 01-1.01-.06z"/></svg>
-          <span>TikTok</span>
-          <span class="platform-scope">video.upload → video.publish</span>
-        </div>
-        <span class="status-badge" id="tiktokStatus">Waiting</span>
-      </div>
-      <div class="platform-row">
-        <div class="platform-info">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="#E1306C"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-          <span>Instagram Reels</span>
-        </div>
-        <span class="status-badge" id="igStatus">Waiting</span>
-      </div>
-      <div class="platform-row">
-        <div class="platform-info">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="#FF0000"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-          <span>YouTube Shorts</span>
-        </div>
-        <span class="status-badge" id="ytStatus">Waiting</span>
-      </div>
-      <div class="success-banner" id="successBanner">
-        <h3>✓ Published to all platforms</h3>
-        <p>Video is live on TikTok, Instagram, and YouTube. Schedule updated automatically.</p>
-      </div>
-    </div>
-  </div>
-</section>
+  <section class="workflow" id="how-it-works">
+    <div class="section-label"><span>01</span> Workflow</div>
+    <h2 class="section-title">Three steps to<br>automated distribution</h2>
 
-<!-- Sandbox / API section -->
-<div class="sandbox-section" id="sandbox">
-  <div class="sandbox-inner">
-    <div class="sandbox-text">
-      <div class="sandbox-badge">✓ TikTok Sandbox Environment</div>
-      <h2>API Integration</h2>
-      <p>Daphnie App connects directly to TikTok's Content Posting API. The platform authenticates via Login Kit, then uses the Content Posting API to upload and publish original music videos to the artist's account.</p>
-      <p style="font-size:13px;color:var(--muted);">All API calls are made through TikTok's official endpoints in the sandbox environment during testing.</p>
+    <div class="steps">
+      <div class="step active" onclick="setStep(0)">
+        <div class="step-num">STEP 01</div>
+        <span class="step-icon">📁</span>
+        <h3>Add your videos</h3>
+        <p>Drop your music video clips into the watched folder. The app recognises each clip, matches it to your song catalogue, and queues it automatically.</p>
+      </div>
+      <div class="step" onclick="setStep(1)">
+        <div class="step-num">STEP 02</div>
+        <span class="step-icon">📅</span>
+        <h3>Schedule is generated</h3>
+        <p>A posting schedule is built automatically — 9:30am and 8:30pm daily. Captions, hashtags, and first comments are selected based on each song's mood category.</p>
+      </div>
+      <div class="step" onclick="setStep(2)">
+        <div class="step-num">STEP 03</div>
+        <span class="step-icon">🚀</span>
+        <h3>Posts go live</h3>
+        <p>At the scheduled time, the video uploads to TikTok, Instagram Reels, and YouTube Shorts simultaneously — at full original quality with no manual input required.</p>
+      </div>
     </div>
-    <div class="api-flow">
-      <div class="api-step">
-        <div class="api-num">1</div>
-        <div class="api-step-text">
-          <strong>Login Kit — user.info.basic</strong>
-          <span>POST /v2/oauth/token/ → verify artist identity</span>
+
+    <div class="demo-area">
+      <div style="text-align:center; margin-bottom: 40px;">
+        <div class="section-label" style="justify-content:center; display:flex;"><span>02</span> Interactive demo</div>
+        <h3 style="font-family:'DM Serif Display',serif; font-size:28px; letter-spacing:-0.02em;">See the workflow in action</h3>
+        <p style="color:var(--muted); font-size:13px; margin-top:10px;">Click the boxes below to simulate adding files, then post to all platforms</p>
+      </div>
+
+      <div class="demo-grid">
+        <div class="drop-zone" id="videoZone" onclick="simulateUpload('video')">
+          <input type="file" accept="video/*" onchange="handleFile(event,'video')" onclick="event.stopPropagation()">
+          <span class="drop-zone-icon">🎬</span>
+          <h4>Drop video files here</h4>
+          <p>MP4, MOV — your music video clips</p>
+          <div class="file-list" id="videoList"></div>
+        </div>
+        <div class="drop-zone" id="csvZone" onclick="simulateUpload('csv')">
+          <input type="file" accept=".csv" onchange="handleFile(event,'csv')" onclick="event.stopPropagation()">
+          <span class="drop-zone-icon">📋</span>
+          <h4>Drop schedule CSV here</h4>
+          <p>Your posting schedule with captions and timing</p>
+          <div class="file-list" id="csvList"></div>
         </div>
       </div>
-      <div class="api-step">
-        <div class="api-num">2</div>
-        <div class="api-step-text">
-          <strong>Content Posting API — video.upload</strong>
-          <span>POST /v2/post/publish/video/init/ → initialise upload</span>
-        </div>
+
+      <div class="post-controls">
+        <button class="btn-post" id="postBtn" onclick="startPosting()" disabled>
+          <span id="postBtnIcon">⬆</span>
+          <span id="postBtnText">Add files to continue</span>
+        </button>
       </div>
-      <div class="api-step">
-        <div class="api-num">3</div>
-        <div class="api-step-text">
-          <strong>Content Posting API — video.upload</strong>
-          <span>PUT upload_url → transfer video file chunks</span>
+
+      <div class="posting-status" id="postingStatus">
+        <div class="platform-row">
+          <div class="platform-name">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.31 6.31 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.75a4.85 4.85 0 01-1.01-.06z"/></svg>
+            TikTok
+          </div>
+          <span class="platform-status" id="tiktokStatus">Waiting</span>
         </div>
-      </div>
-      <div class="api-step">
-        <div class="api-num">4</div>
-        <div class="api-step-text">
-          <strong>Content Posting API — video.publish</strong>
-          <span>POST /v2/post/publish/status/fetch/ → confirm PUBLISH_COMPLETE</span>
+        <div class="platform-row">
+          <div class="platform-name">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#E1306C"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+            Instagram Reels
+          </div>
+          <span class="platform-status" id="igStatus">Waiting</span>
+        </div>
+        <div class="platform-row">
+          <div class="platform-name">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#FF0000"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+            YouTube Shorts
+          </div>
+          <span class="platform-status" id="ytStatus">Waiting</span>
+        </div>
+        <div class="success-banner" id="successBanner">
+          <h3>✓ Posted successfully</h3>
+          <p>Your video is now live on TikTok, Instagram, and YouTube. File removed from queue.</p>
         </div>
       </div>
     </div>
-  </div>
-</div>
+  </section>
 
-<!-- Connect -->
-<section class="connect-section" id="connect">
-  <div class="connect-text">
-    <div class="section-label"><span>02</span> Authentication</div>
-    <h2>Connect your TikTok account</h2>
-    <p>Use TikTok's Login Kit to authorise Daphnie App to publish content on your behalf. The platform requests only the permissions required to deliver the service.</p>
-    <ul class="scope-list">
-      <li>
-        <div class="scope-icon">🔐</div>
-        <div class="scope-info">
-          <strong>user.info.basic — Login Kit</strong>
-          <span>Verifies your TikTok account identity during the OAuth login flow. Used to confirm which account is authorised to receive published content.</span>
-          <em>Data is used for authentication only — not stored or shared.</em>
-        </div>
-      </li>
-      <li>
-        <div class="scope-icon">📤</div>
-        <div class="scope-info">
-          <strong>video.upload — Content Posting API</strong>
-          <span>Transfers your original music video file to TikTok's upload endpoint in preparation for publishing.</span>
-          <em>Video data is owned by the artist and published only to their account.</em>
-        </div>
-      </li>
-      <li>
-        <div class="scope-icon">🚀</div>
-        <div class="scope-info">
-          <strong>video.publish — Content Posting API</strong>
-          <span>Publishes the uploaded video to your TikTok profile on a scheduled basis, enabling consistent content distribution to your audience.</span>
-          <em>Posts are made on your behalf only, with your authorisation.</em>
-        </div>
-      </li>
-    </ul>
-    <p style="font-size:12px;color:var(--muted);">You can revoke access at any time from TikTok Settings → Security → Authorised Apps.</p>
-  </div>
+  <section class="connect-section" id="connect">
+    <div class="connect-text">
+      <div class="section-label"><span>03</span> Connect</div>
+      <h2>Authorise your TikTok account</h2>
+      <p>To enable automatic publishing, connect your TikTok account. The app requests only the permissions it needs.</p>
+      <ul class="permissions-list">
+        <li>
+          <div class="perm-icon">📤</div>
+          <div class="perm-text">
+            <strong>video.publish</strong>
+            <span>Upload and publish original music videos to your TikTok account</span>
+          </div>
+        </li>
+        <li>
+          <div class="perm-icon">👤</div>
+          <div class="perm-text">
+            <strong>user.info.basic</strong>
+            <span>Verify your account identity during the login flow</span>
+          </div>
+        </li>
+      </ul>
+      <p style="font-size:12px;color:var(--muted);">Your credentials are stored locally on your device and never sent to any third-party server. Revoke access anytime from TikTok settings.</p>
+    </div>
 
-  <div class="connect-card">
-    <div class="app-icon">🎵</div>
-    <h3>Daphnie App</h3>
-    <p>Authorise access to enable automatic music video publishing to your TikTok account.</p>
-    <a class="tiktok-btn" href="#" id="tiktokLoginBtn" onclick="doTikTokLogin(event)">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.31 6.31 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.75a4.85 4.85 0 01-1.01-.06z"/></svg>
-      Continue with TikTok
-    </a>
-    <p class="connect-notice">By connecting, you authorise Daphnie App to publish original music videos to your TikTok account using the scopes listed. You can disconnect at any time.</p>
-    <div class="connect-status" id="connectStatus">✓ TikTok account connected successfully</div>
-  </div>
-</section>
+    <div class="connect-card">
+      <div class="app-icon">🎵</div>
+      <h3>Daphnie App</h3>
+      <p>Music video distribution for independent artists. Connect once, post everywhere automatically.</p>
+      <a class="tiktok-login-btn" href="#" id="tiktokLoginBtn" onclick="doTikTokLogin(event)">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.31 6.31 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.75a4.85 4.85 0 01-1.01-.06z"/></svg>
+        Continue with TikTok
+      </a>
+      <div class="connect-status" id="connectStatus">✓ Account connected successfully</div>
+    </div>
+  </section>
 
-<footer>
-  <div>© 2026 Daphnie App — Music Distribution Platform</div>
-  <div style="display:flex;gap:20px;">
-    <a href="privacy-policy.html">Privacy Policy</a>
-    <a href="terms-of-service.html">Terms of Service</a>
-  </div>
-</footer>
+  <footer>
+    <div>© 2026 Daphnie App. Built for independent artists.</div>
+    <div style="display:flex;gap:24px;">
+      <a href="contact.html">Contact Us</a>
+      <a href="privacy-policy.html">Privacy Policy</a>
+      <a href="terms-of-service.html">Terms of Service</a>
+    </div>
+  </footer>
 
-<script>
-  const CLIENT_KEY = 'sbaw2rio5tlosdtzmk';
-  const REDIRECT   = 'https://probablydaphnie-pixel.github.io/daphnie-app/';
-  let videosAdded = false, csvAdded = false;
+  <script>
+    const CLIENT_KEY = 'sbaw2rio5tlosdtzmk';
+    const REDIRECT   = 'https://probablydaphnie-pixel.github.io/daphnie-app/';
+    let videosAdded = false, csvAdded = false;
 
-  function setStep(n){
-    document.querySelectorAll('.flow-step').forEach((s,i)=>s.classList.toggle('active',i===n));
-  }
-  function handleFile(e,type){
-    const files=Array.from(e.target.files);
-    if(!files.length)return;
-    markUploaded(type,files.map(f=>f.name));
-  }
-  function simulateUpload(type){
-    if(type==='video') markUploaded('video',['28_Cross28_V2A.mp4','Alive_LIVE_11.mov']);
-    else markUploaded('csv',['schedule.csv']);
-  }
-  function markUploaded(type,names){
-    const zone=document.getElementById(type==='video'?'videoZone':'csvZone');
-    const list=document.getElementById(type==='video'?'videoList':'csvList');
-    zone.classList.add('uploaded');
-    list.innerHTML=names.map(n=>`<div class="file-item">${n}</div>`).join('');
-    if(type==='video') videosAdded=true; else csvAdded=true;
-    checkReady();
-  }
-  function checkReady(){
-    const btn=document.getElementById('postBtn');
-    if(videosAdded&&csvAdded){
-      btn.classList.add('ready');btn.disabled=false;
-      document.getElementById('postBtnText').textContent='Publish to all platforms';
-      document.getElementById('postBtnIcon').textContent='🚀';
+    function setStep(n) {
+      document.querySelectorAll('.step').forEach((s,i) => s.classList.toggle('active', i===n));
     }
-  }
-  function startPosting(){
-    const btn=document.getElementById('postBtn');
-    btn.classList.remove('ready');btn.disabled=true;
-    document.getElementById('postBtnText').textContent='Publishing…';
-    document.getElementById('postBtnIcon').textContent='⏳';
-    document.getElementById('postingStatus').classList.add('visible');
-    [
-      {id:'tiktokStatus',start:600,done:3000},
-      {id:'igStatus',start:1000,done:5200},
-      {id:'ytStatus',done:2400,start:400},
-    ].forEach(({id,start,done})=>{
-      setTimeout(()=>{
-        document.getElementById(id).textContent='Uploading…';
-        document.getElementById(id).className='status-badge uploading';
-      },start);
-      setTimeout(()=>{
-        document.getElementById(id).textContent='Live ✓';
-        document.getElementById(id).className='status-badge done';
-        if(['tiktokStatus','igStatus','ytStatus'].every(i=>document.getElementById(i).classList.contains('done'))){
-          document.getElementById('successBanner').classList.add('visible');
-          document.getElementById('postBtnText').textContent='All platforms live ✓';
-          document.getElementById('postBtnIcon').textContent='✓';
-        }
-      },done);
-    });
-  }
-  function doTikTokLogin(e){
-    e.preventDefault();
-    window.location.href=`https://www.tiktok.com/v2/auth/authorize/?client_key=${CLIENT_KEY}&scope=video.publish,user.info.basic&response_type=code&redirect_uri=${encodeURIComponent(REDIRECT)}`;
-  }
-  const params=new URLSearchParams(window.location.search);
-  if(params.get('code')){
-    document.getElementById('connectStatus').classList.add('visible');
-    const btn=document.getElementById('tiktokLoginBtn');
-    btn.innerHTML='✓ Account Connected';
-    btn.style.cssText='background:#00e676;color:#000;display:flex;align-items:center;justify-content:center;border-radius:8px;padding:14px 24px;font-size:14px;font-weight:600;width:100%;cursor:default;';
-    btn.onclick=null;
-    setTimeout(()=>document.getElementById('connect').scrollIntoView({behavior:'smooth'}),300);
-  }
-</script>
+
+    function handleFile(e, type) {
+      const files = Array.from(e.target.files);
+      if (!files.length) return;
+      markUploaded(type, files.map(f => f.name));
+    }
+
+    function simulateUpload(type) {
+      if (type === 'video') markUploaded('video', ['28_Cross28_V2A.mp4', '28_Mirror_C1B.mp4']);
+      else markUploaded('csv', ['schedule.csv']);
+    }
+
+    function markUploaded(type, names) {
+      const zone = document.getElementById(type==='video' ? 'videoZone' : 'csvZone');
+      const list = document.getElementById(type==='video' ? 'videoList' : 'csvList');
+      zone.classList.add('uploaded');
+      list.innerHTML = names.map(n => `<div class="file-item">${n}</div>`).join('');
+      if (type === 'video') videosAdded = true;
+      else csvAdded = true;
+      checkReady();
+    }
+
+    function checkReady() {
+      const btn = document.getElementById('postBtn');
+      if (videosAdded && csvAdded) {
+        btn.classList.add('ready');
+        btn.disabled = false;
+        document.getElementById('postBtnText').textContent = 'Post to all platforms';
+        document.getElementById('postBtnIcon').textContent = '🚀';
+      }
+    }
+
+    function startPosting() {
+      const btn = document.getElementById('postBtn');
+      btn.classList.remove('ready');
+      btn.disabled = true;
+      document.getElementById('postBtnText').textContent = 'Uploading…';
+      document.getElementById('postBtnIcon').textContent = '⏳';
+      document.getElementById('postingStatus').classList.add('visible');
+
+      [
+        { id: 'tiktokStatus', start: 800,  done: 3200 },
+        { id: 'igStatus',     start: 1200, done: 5800 },
+        { id: 'ytStatus',     start: 600,  done: 2800 },
+      ].forEach(({ id, start, done }) => {
+        setTimeout(() => {
+          document.getElementById(id).textContent = 'Uploading…';
+          document.getElementById(id).className = 'platform-status uploading';
+        }, start);
+        setTimeout(() => {
+          document.getElementById(id).textContent = 'Live ✓';
+          document.getElementById(id).className = 'platform-status done';
+          if (['tiktokStatus','igStatus','ytStatus'].every(i => document.getElementById(i).classList.contains('done'))) {
+            document.getElementById('successBanner').classList.add('visible');
+            document.getElementById('postBtnText').textContent = 'All platforms live ✓';
+            document.getElementById('postBtnIcon').textContent = '✓';
+          }
+        }, done);
+      });
+    }
+
+    function doTikTokLogin(e) {
+      e.preventDefault();
+      window.location.href = `https://www.tiktok.com/v2/auth/authorize/?client_key=${CLIENT_KEY}&scope=video.publish,user.info.basic&response_type=code&redirect_uri=${encodeURIComponent(REDIRECT)}`;
+    }
+
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('code')) {
+      document.getElementById('connectStatus').classList.add('visible');
+      const btn = document.getElementById('tiktokLoginBtn');
+      btn.innerHTML = '✓ Connected';
+      btn.style.cssText = 'background:#00e676;color:#000;display:flex;align-items:center;justify-content:center;gap:12px;border-radius:8px;padding:15px 28px;font-size:14px;font-weight:600;width:100%;cursor:default;';
+      btn.onclick = null;
+      document.getElementById('connect').scrollIntoView({ behavior: 'smooth' });
+    }
+  </script>
 </body>
 </html>
