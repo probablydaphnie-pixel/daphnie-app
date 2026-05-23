@@ -3,389 +3,581 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Daphnie App — Music Distribution Platform</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <title>Daphnie App — Publish Your Music</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Syne:wght@300;400;500&family=Syne+Mono&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #080808;
-      --surface: #111;
-      --surface2: #181818;
-      --border: #222;
-      --text: #f0ede8;
-      --muted: #666;
-      --accent: #c8ff00;
-      --accent-dim: rgba(200,255,0,0.08);
-      --green: #00e676;
+      --bg: #f5f2ed;
+      --surface: #fff;
+      --surface2: #f0ede8;
+      --border: #e0dbd3;
+      --text: #1a1814;
+      --muted: #8a847a;
+      --accent: #1a1814;
+      --lime: #c8f53a;
+      --lime-dark: #a8d420;
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 300; min-height: 100vh; overflow-x: hidden; }
-    nav { display: flex; align-items: center; justify-content: space-between; padding: 24px 48px; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: rgba(8,8,8,0.92); backdrop-filter: blur(12px); z-index: 100; }
-    .nav-logo { font-family: 'DM Serif Display', serif; font-size: 20px; }
-    .nav-logo span { color: var(--accent); }
-    .nav-links { display: flex; gap: 32px; }
-    .nav-links a { color: var(--muted); font-size: 13px; text-decoration: none; letter-spacing: 0.05em; text-transform: uppercase; transition: color 0.2s; }
+    body { background: var(--bg); color: var(--text); font-family: 'Syne', sans-serif; font-weight: 300; min-height: 100vh; }
+
+    /* NAV */
+    nav { display: flex; align-items: center; justify-content: space-between; padding: 20px 48px; background: var(--surface); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
+    .nav-logo { font-family: 'Playfair Display', serif; font-size: 22px; letter-spacing: -0.01em; }
+    .nav-links { display: flex; gap: 32px; align-items: center; }
+    .nav-links a { color: var(--muted); font-size: 13px; text-decoration: none; text-transform: uppercase; letter-spacing: 0.08em; transition: color 0.2s; }
     .nav-links a:hover { color: var(--text); }
+    .nav-cta { background: var(--accent); color: #fff !important; padding: 10px 20px; border-radius: 4px; transition: opacity 0.2s !important; }
+    .nav-cta:hover { opacity: 0.85; color: #fff !important; }
 
-    .hero { padding: 100px 48px 80px; max-width: 1100px; margin: 0 auto; }
-    .hero-label { display: inline-flex; align-items: center; gap: 8px; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); background: var(--accent-dim); border: 1px solid rgba(200,255,0,0.2); padding: 6px 14px; border-radius: 100px; margin-bottom: 40px; }
-    .hero-label::before { content: ''; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; animation: pulse 2s infinite; }
-    @keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.3} }
-    h1 { font-family: 'DM Serif Display', serif; font-size: clamp(48px, 7vw, 88px); line-height: 1.0; letter-spacing: -0.03em; margin-bottom: 28px; }
+    /* HERO */
+    .hero { display: grid; grid-template-columns: 1fr 1fr; min-height: 88vh; }
+    .hero-left { padding: 80px 64px; display: flex; flex-direction: column; justify-content: center; background: var(--surface); border-right: 1px solid var(--border); }
+    .hero-eyebrow { font-family: 'Syne Mono', monospace; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 28px; display: flex; align-items: center; gap: 10px; }
+    .hero-eyebrow::before { content: ''; width: 32px; height: 1px; background: var(--muted); }
+    h1 { font-family: 'Playfair Display', serif; font-size: clamp(48px, 5.5vw, 80px); line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 28px; }
     h1 em { font-style: italic; color: var(--muted); }
-    .hero-sub { font-size: 17px; color: var(--muted); max-width: 520px; line-height: 1.7; margin-bottom: 52px; }
-    .hero-cta { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
-    .btn-primary { display: inline-flex; align-items: center; gap: 10px; background: var(--accent); color: #000; border: none; border-radius: 6px; padding: 14px 28px; font-size: 14px; font-weight: 500; cursor: pointer; text-decoration: none; transition: all 0.2s; font-family: 'DM Sans', sans-serif; }
-    .btn-primary:hover { background: #d4ff1a; transform: translateY(-1px); }
-    .btn-ghost { color: var(--muted); font-size: 13px; text-decoration: none; transition: color 0.2s; }
-    .btn-ghost:hover { color: var(--text); }
+    .hero-sub { font-size: 15px; color: var(--muted); line-height: 1.75; max-width: 420px; margin-bottom: 48px; }
+    .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
+    .btn-dark { display: inline-flex; align-items: center; gap: 10px; background: var(--accent); color: #fff; border: none; border-radius: 4px; padding: 14px 28px; font-size: 13px; font-weight: 400; cursor: pointer; text-decoration: none; font-family: 'Syne', sans-serif; letter-spacing: 0.05em; text-transform: uppercase; transition: opacity 0.2s; }
+    .btn-dark:hover { opacity: 0.85; }
+    .btn-outline { display: inline-flex; align-items: center; gap: 8px; background: transparent; color: var(--text); border: 1px solid var(--border); border-radius: 4px; padding: 13px 24px; font-size: 13px; cursor: pointer; text-decoration: none; font-family: 'Syne', sans-serif; letter-spacing: 0.05em; text-transform: uppercase; transition: all 0.2s; }
+    .btn-outline:hover { border-color: var(--text); }
 
-    .stats { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); display: flex; margin: 0 48px; }
-    .stat { flex: 1; padding: 28px 40px; border-right: 1px solid var(--border); }
-    .stat:last-child { border-right: none; }
-    .stat-value { font-family: 'DM Serif Display', serif; font-size: 36px; letter-spacing: -0.02em; margin-bottom: 6px; }
-    .stat-label { font-size: 12px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+    .hero-right { padding: 80px 64px; display: flex; flex-direction: column; justify-content: center; background: var(--surface2); }
+    .hero-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-bottom: 40px; }
+    .stat-box { background: var(--surface); padding: 28px 24px; }
+    .stat-box:nth-child(odd) { background: var(--accent); color: #fff; }
+    .stat-box:nth-child(odd) .stat-label { color: rgba(255,255,255,0.6); }
+    .stat-num { font-family: 'Playfair Display', serif; font-size: 40px; letter-spacing: -0.02em; margin-bottom: 6px; }
+    .stat-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
+    .platform-badges { display: flex; gap: 10px; flex-wrap: wrap; }
+    .platform-badge { display: flex; align-items: center; gap: 8px; background: var(--surface); border: 1px solid var(--border); border-radius: 100px; padding: 8px 16px; font-size: 12px; }
 
-    .workflow { padding: 100px 48px; max-width: 1100px; margin: 0 auto; }
-    .section-label { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; }
-    .section-label span { color: var(--accent); margin-right: 8px; }
-    .section-title { font-family: 'DM Serif Display', serif; font-size: clamp(32px, 4vw, 52px); letter-spacing: -0.02em; margin-bottom: 64px; line-height: 1.1; }
+    /* DASHBOARD PREVIEW */
+    .dashboard-section { padding: 80px 48px; background: var(--surface); border-top: 1px solid var(--border); }
+    .dashboard-section > .inner { max-width: 1100px; margin: 0 auto; }
+    .section-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 48px; }
+    .section-eyebrow { font-family: 'Syne Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+    .section-title { font-family: 'Playfair Display', serif; font-size: clamp(28px, 3vw, 42px); letter-spacing: -0.02em; line-height: 1.1; }
 
-    .steps { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2px; }
-    .step { background: var(--surface); padding: 40px 36px; position: relative; overflow: hidden; cursor: pointer; transition: background 0.3s; }
-    .step:hover, .step.active { background: var(--surface2); }
-    .step::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: var(--accent); transform: scaleX(0); transition: transform 0.3s; transform-origin: left; }
-    .step:hover::after, .step.active::after { transform: scaleX(1); }
-    .step-num { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.1em; margin-bottom: 32px; }
-    .step-icon { font-size: 28px; margin-bottom: 20px; display: block; }
-    .step h3 { font-size: 17px; font-weight: 500; margin-bottom: 12px; letter-spacing: -0.01em; }
-    .step p { font-size: 13px; color: var(--muted); line-height: 1.7; }
+    /* APP UI MOCKUP */
+    .app-shell { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; box-shadow: 0 24px 80px rgba(0,0,0,0.08); }
+    .app-titlebar { background: #2a2a2a; padding: 12px 18px; display: flex; align-items: center; gap: 8px; }
+    .dot { width: 12px; height: 12px; border-radius: 50%; }
+    .dot-r { background: #ff5f57; }
+    .dot-y { background: #febc2e; }
+    .dot-g { background: #28c840; }
+    .app-titlebar-text { flex: 1; text-align: center; font-family: 'Syne Mono', monospace; font-size: 11px; color: #888; }
+    .app-body { display: grid; grid-template-columns: 220px 1fr; min-height: 520px; }
+    .app-sidebar { background: #1a1a1a; padding: 24px 0; border-right: 1px solid #333; }
+    .sidebar-item { display: flex; align-items: center; gap: 12px; padding: 10px 20px; font-size: 12px; color: #888; cursor: pointer; transition: all 0.2s; font-family: 'Syne', sans-serif; }
+    .sidebar-item:hover, .sidebar-item.active { background: rgba(255,255,255,0.05); color: #fff; }
+    .sidebar-item.active { color: var(--lime); border-left: 2px solid var(--lime); }
+    .sidebar-label { font-family: 'Syne Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: #555; padding: 16px 20px 8px; }
+    .app-main { background: var(--bg); padding: 28px; overflow: hidden; }
+    .app-toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+    .app-toolbar h3 { font-size: 16px; font-weight: 500; }
+    .toolbar-actions { display: flex; gap: 10px; }
+    .toolbar-btn { display: flex; align-items: center; gap: 6px; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 8px 14px; font-size: 12px; cursor: pointer; font-family: 'Syne', sans-serif; transition: all 0.2s; }
+    .toolbar-btn:hover { border-color: var(--text); }
+    .toolbar-btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .toolbar-btn-primary:hover { opacity: 0.85; }
 
-    .demo-area { margin-top: 2px; background: var(--surface); padding: 60px 48px; }
-    .demo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; max-width: 900px; margin: 0 auto; }
-    .drop-zone { border: 1px dashed var(--border); border-radius: 12px; padding: 40px 32px; text-align: center; transition: all 0.3s; cursor: pointer; position: relative; background: var(--bg); }
-    .drop-zone:hover { border-color: var(--accent); background: var(--accent-dim); }
-    .drop-zone.uploaded { border-color: var(--green); border-style: solid; background: rgba(0,230,118,0.04); }
-    .drop-zone-icon { font-size: 32px; margin-bottom: 16px; display: block; }
-    .drop-zone h4 { font-size: 15px; font-weight: 500; margin-bottom: 8px; }
-    .drop-zone p { font-size: 12px; color: var(--muted); line-height: 1.6; }
-    .drop-zone input { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
-    .file-list { margin-top: 16px; text-align: left; }
-    .file-item { display: flex; align-items: center; gap: 10px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--green); padding: 6px 0; border-bottom: 1px solid var(--border); }
-    .file-item::before { content: '✓'; }
+    /* Schedule table */
+    .schedule-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    .schedule-table th { text-align: left; padding: 10px 14px; background: var(--surface); border-bottom: 2px solid var(--border); font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-weight: 400; }
+    .schedule-table td { padding: 10px 14px; border-bottom: 1px solid var(--border); vertical-align: middle; background: var(--surface); }
+    .schedule-table tr:hover td { background: var(--surface2); }
+    .status-dot { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; }
+    .dot-status { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+    .dot-scheduled { background: #f59e0b; }
+    .dot-live { background: #10b981; }
+    .dot-failed { background: var(--red, #ef4444); }
+    .platform-icons { display: flex; gap: 4px; }
+    .p-icon { width: 20px; height: 20px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 10px; }
+    .p-tt { background: #000; color: #fff; }
+    .p-ig { background: #E1306C; color: #fff; }
+    .p-yt { background: #FF0000; color: #fff; }
+    .caption-cell { max-width: 240px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--muted); }
 
-    .post-controls { text-align: center; margin-top: 32px; }
-    .btn-post { display: inline-flex; align-items: center; gap: 12px; background: var(--surface2); color: var(--muted); border: 1px solid var(--border); border-radius: 8px; padding: 16px 40px; font-size: 15px; font-weight: 500; cursor: not-allowed; font-family: 'DM Sans', sans-serif; transition: all 0.3s; }
-    .btn-post.ready { background: var(--accent); color: #000; border-color: var(--accent); cursor: pointer; animation: readyPulse 2s infinite; }
-    @keyframes readyPulse { 0%,100%{box-shadow:0 0 0 0 rgba(200,255,0,0.4)}50%{box-shadow:0 0 0 12px rgba(200,255,0,0)} }
+    /* Upload panel */
+    .upload-panels { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .upload-panel { border: 1.5px dashed var(--border); border-radius: 10px; padding: 32px 24px; text-align: center; cursor: pointer; transition: all 0.3s; background: var(--surface); position: relative; }
+    .upload-panel:hover { border-color: var(--accent); background: var(--surface2); }
+    .upload-panel.uploaded { border-color: #10b981; border-style: solid; background: rgba(16,185,129,0.04); }
+    .upload-panel input { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+    .upload-icon { font-size: 28px; margin-bottom: 12px; display: block; }
+    .upload-panel h4 { font-size: 14px; font-weight: 500; margin-bottom: 6px; }
+    .upload-panel p { font-size: 12px; color: var(--muted); }
+    .upload-panel .download-link { display: inline-flex; align-items: center; gap: 4px; margin-top: 12px; font-size: 11px; color: var(--accent); text-decoration: none; cursor: pointer; border: none; background: none; font-family: 'Syne', sans-serif; padding: 0; }
+    .upload-panel .download-link:hover { text-decoration: underline; }
+    .file-added { margin-top: 14px; display: flex; align-items: center; gap: 8px; background: rgba(16,185,129,0.1); border-radius: 6px; padding: 8px 12px; font-size: 12px; color: #10b981; text-align: left; }
 
-    .posting-status { display: none; max-width: 480px; margin: 32px auto 0; }
-    .posting-status.visible { display: block; }
-    .platform-row { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 8px; font-size: 13px; }
-    .platform-name { display: flex; align-items: center; gap: 10px; }
-    .platform-status { font-family: 'DM Mono', monospace; font-size: 11px; padding: 3px 10px; border-radius: 100px; background: var(--surface); color: var(--muted); }
-    .platform-status.uploading { color: var(--accent); background: var(--accent-dim); animation: blink 1s infinite; }
+    .post-now-bar { margin-top: 20px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; }
+    .post-now-info h4 { font-size: 14px; font-weight: 500; margin-bottom: 3px; }
+    .post-now-info p { font-size: 12px; color: var(--muted); }
+    .post-progress { display: none; width: 100%; margin-top: 16px; }
+    .post-progress.visible { display: block; }
+    .progress-platform { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 12px; }
+    .progress-platform:last-child { border-bottom: none; }
+    .progress-name { display: flex; align-items: center; gap: 8px; }
+    .progress-status { font-size: 11px; padding: 3px 10px; border-radius: 100px; background: var(--surface2); color: var(--muted); font-family: 'Syne Mono', monospace; }
+    .progress-status.uploading { background: rgba(200,245,58,0.15); color: #6b8f00; animation: blink 1s infinite; }
+    .progress-status.done { background: rgba(16,185,129,0.12); color: #10b981; }
     @keyframes blink { 0%,100%{opacity:1}50%{opacity:0.5} }
-    .platform-status.done { color: var(--green); background: rgba(0,230,118,0.08); }
+    .post-success { display: none; text-align: center; padding: 20px; background: rgba(16,185,129,0.06); border: 1px solid rgba(16,185,129,0.2); border-radius: 8px; margin-top: 16px; }
+    .post-success.visible { display: block; }
+    .post-success h4 { font-size: 16px; font-weight: 500; color: #10b981; margin-bottom: 4px; }
+    .post-success p { font-size: 12px; color: var(--muted); }
 
-    .success-banner { display: none; text-align: center; padding: 28px; background: rgba(0,230,118,0.06); border: 1px solid rgba(0,230,118,0.2); border-radius: 12px; margin-top: 24px; }
-    .success-banner.visible { display: block; }
-    .success-banner h3 { font-family: 'DM Serif Display', serif; font-size: 24px; color: var(--green); margin-bottom: 8px; }
-    .success-banner p { font-size: 13px; color: var(--muted); }
+    /* Connect section */
+    .connect-section { padding: 80px 48px; background: var(--surface2); border-top: 1px solid var(--border); }
+    .connect-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+    .connect-text h2 { font-family: 'Playfair Display', serif; font-size: clamp(28px,3.5vw,44px); letter-spacing: -0.02em; margin-bottom: 16px; line-height: 1.1; }
+    .connect-text > p { color: var(--muted); font-size: 15px; line-height: 1.75; margin-bottom: 32px; }
+    .permission-list { list-style: none; margin-bottom: 32px; }
+    .permission-list li { display: flex; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--border); }
+    .perm-icon { width: 36px; height: 36px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+    .perm-text strong { display: block; font-size: 13px; font-weight: 500; margin-bottom: 3px; }
+    .perm-text span { font-size: 12px; color: var(--muted); line-height: 1.5; }
 
-    .connect-section { padding: 100px 48px; max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
-    .connect-text h2 { font-family: 'DM Serif Display', serif; font-size: clamp(32px, 4vw, 48px); letter-spacing: -0.02em; margin-bottom: 20px; line-height: 1.1; }
-    .connect-text p { color: var(--muted); font-size: 15px; line-height: 1.8; margin-bottom: 36px; }
-    .permissions-list { list-style: none; margin-bottom: 40px; }
-    .permissions-list li { display: flex; align-items: flex-start; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
-    .perm-icon { width: 28px; height: 28px; background: var(--accent-dim); border: 1px solid rgba(200,255,0,0.2); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; }
-    .perm-text strong { display: block; font-size: 13px; font-weight: 500; margin-bottom: 2px; }
-    .perm-text span { font-size: 12px; color: var(--muted); }
-    .connect-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 48px 40px; text-align: center; }
-    .app-icon { width: 72px; height: 72px; background: linear-gradient(135deg, #c8ff00, #00e5ff); border-radius: 18px; margin: 0 auto 24px; display: flex; align-items: center; justify-content: center; font-size: 32px; }
-    .connect-card h3 { font-family: 'DM Serif Display', serif; font-size: 24px; margin-bottom: 10px; }
-    .connect-card p { color: var(--muted); font-size: 13px; margin-bottom: 32px; line-height: 1.6; }
-    .tiktok-login-btn { display: flex; align-items: center; justify-content: center; gap: 12px; background: #fff; color: #000; border: none; border-radius: 8px; padding: 15px 28px; font-size: 14px; font-weight: 600; cursor: pointer; width: 100%; font-family: 'DM Sans', sans-serif; transition: all 0.2s; text-decoration: none; }
-    .tiktok-login-btn:hover { background: #f0f0f0; transform: translateY(-1px); }
-    .tiktok-login-btn svg { width: 18px; height: 18px; }
-    .connect-status { display: none; margin-top: 20px; padding: 14px 20px; background: rgba(0,230,118,0.08); border: 1px solid rgba(0,230,118,0.2); border-radius: 8px; font-size: 13px; color: var(--green); }
-    .connect-status.visible { display: block; }
+    .connect-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 40px 36px; text-align: center; position: sticky; top: 100px; box-shadow: 0 8px 32px rgba(0,0,0,0.06); }
+    .connect-card-icon { width: 64px; height: 64px; background: var(--lime); border-radius: 16px; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; font-size: 28px; }
+    .connect-card h3 { font-family: 'Playfair Display', serif; font-size: 22px; margin-bottom: 8px; }
+    .connect-card p { color: var(--muted); font-size: 13px; margin-bottom: 28px; line-height: 1.6; }
+    .tiktok-btn { display: flex; align-items: center; justify-content: center; gap: 12px; background: #1a1a1a; color: #fff; border: none; border-radius: 8px; padding: 15px 24px; font-size: 14px; font-weight: 500; cursor: pointer; width: 100%; font-family: 'Syne', sans-serif; transition: all 0.2s; text-decoration: none; }
+    .tiktok-btn:hover { background: #333; transform: translateY(-1px); }
+    .tiktok-btn svg { width: 18px; height: 18px; }
+    .connect-fine-print { font-size: 11px; color: var(--muted); margin-top: 14px; line-height: 1.6; }
+    .connect-success { display: none; margin-top: 16px; padding: 12px 16px; background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.2); border-radius: 8px; font-size: 13px; color: #10b981; }
+    .connect-success.visible { display: block; }
 
-    footer { border-top: 1px solid var(--border); padding: 40px 48px; display: flex; justify-content: space-between; align-items: center; color: var(--muted); font-size: 12px; }
+    footer { border-top: 1px solid var(--border); padding: 32px 48px; display: flex; justify-content: space-between; align-items: center; color: var(--muted); font-size: 12px; background: var(--surface); }
     footer a { color: var(--muted); text-decoration: none; transition: color 0.2s; }
     footer a:hover { color: var(--text); }
 
-    @media (max-width: 768px) {
-      nav { padding: 20px 24px; }
-      .hero { padding: 60px 24px 48px; }
-      .stats { margin: 0; flex-wrap: wrap; }
-      .stat { border-right: none; border-bottom: 1px solid var(--border); padding: 24px; flex: 0 0 50%; }
-      .workflow { padding: 60px 24px; }
-      .steps { grid-template-columns: 1fr; }
-      .demo-area { padding: 40px 24px; }
-      .demo-grid { grid-template-columns: 1fr; }
-      .connect-section { padding: 60px 24px; grid-template-columns: 1fr; gap: 40px; }
-      footer { padding: 32px 24px; flex-direction: column; gap: 16px; }
+    /* Tabs in app */
+    .app-tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); margin-bottom: 24px; }
+    .app-tab { padding: 10px 20px; font-size: 12px; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; transition: all 0.2s; }
+    .app-tab.active { color: var(--text); border-bottom-color: var(--accent); }
+
+    @media(max-width:900px) {
+      nav { padding: 16px 24px; }
+      .hero { grid-template-columns: 1fr; }
+      .hero-right { display: none; }
+      .app-body { grid-template-columns: 1fr; }
+      .app-sidebar { display: none; }
+      .upload-panels { grid-template-columns: 1fr; }
+      .connect-inner { grid-template-columns: 1fr; gap: 40px; }
+      .connect-card { position: static; }
+      .dashboard-section, .connect-section { padding: 48px 24px; }
+      footer { padding: 24px; flex-direction: column; gap: 12px; }
     }
   </style>
 </head>
 <body>
 
-  <nav>
-    <div class="nav-logo">Daphnie<span>.</span>app</div>
-    <div class="nav-links">
-      <a href="#how-it-works">How it works</a>
-      <a href="#connect">Connect</a>
-      <a href="privacy-policy.html">Privacy</a>
-      <a href="terms-of-service.html">Terms</a>
-    </div>
-  </nav>
+<nav>
+  <div class="nav-logo">Daphnie</div>
+  <div class="nav-links">
+    <a href="#dashboard">Dashboard</a>
+    <a href="#upload">Upload</a>
+    <a href="#connect">Connect</a>
+    <a href="privacy-policy.html">Privacy</a>
+    <a href="terms-of-service.html">Terms</a>
+    <a href="#connect" class="nav-cta">Get Started</a>
+  </div>
+</nav>
 
-  <section class="hero">
-    <div class="hero-label">Music Distribution Platform</div>
-    <h1>Publish your music<br><em>everywhere, automatically</em></h1>
-    <p class="hero-sub">Daphnie App schedules and distributes original music video content to TikTok, Instagram, and YouTube — so independent artists can focus on creating, not posting.</p>
-    <div class="hero-cta">
-      <a href="#connect" class="btn-primary">
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">Music Distribution Platform</div>
+    <h1>Post once.<br><em>Reach everywhere.</em></h1>
+    <p class="hero-sub">Daphnie App automatically distributes your original music videos to TikTok, Instagram Reels, and YouTube Shorts — twice a day, every day, without you lifting a finger.</p>
+    <div class="hero-actions">
+      <a href="#connect" class="btn-dark">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.31 6.31 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.75a4.85 4.85 0 01-1.01-.06z"/></svg>
         Connect TikTok
       </a>
-      <a href="#how-it-works" class="btn-ghost">See how it works →</a>
-    </div>
-  </section>
-
-  <div class="stats">
-    <div class="stat">
-      <div class="stat-value">2×</div>
-      <div class="stat-label">Posts per day</div>
-    </div>
-    <div class="stat">
-      <div class="stat-value">3</div>
-      <div class="stat-label">Platforms simultaneously</div>
-    </div>
-    <div class="stat">
-      <div class="stat-value">100%</div>
-      <div class="stat-label">Original quality</div>
-    </div>
-    <div class="stat">
-      <div class="stat-value">0</div>
-      <div class="stat-label">Manual steps after setup</div>
+      <a href="#upload" class="btn-outline">See how it works</a>
     </div>
   </div>
-
-  <section class="workflow" id="how-it-works">
-    <div class="section-label"><span>01</span> Workflow</div>
-    <h2 class="section-title">Three steps to<br>automated distribution</h2>
-
-    <div class="steps">
-      <div class="step active" onclick="setStep(0)">
-        <div class="step-num">STEP 01</div>
-        <span class="step-icon">📁</span>
-        <h3>Add your videos</h3>
-        <p>Drop your music video clips into the watched folder. The app recognises each clip, matches it to your song catalogue, and queues it automatically.</p>
+  <div class="hero-right">
+    <div class="hero-stats">
+      <div class="stat-box">
+        <div class="stat-num">2×</div>
+        <div class="stat-label">Daily posts</div>
       </div>
-      <div class="step" onclick="setStep(1)">
-        <div class="step-num">STEP 02</div>
-        <span class="step-icon">📅</span>
-        <h3>Schedule is generated</h3>
-        <p>A posting schedule is built automatically — 9:30am and 8:30pm daily. Captions, hashtags, and first comments are selected based on each song's mood category.</p>
+      <div class="stat-box">
+        <div class="stat-num">3</div>
+        <div class="stat-label">Platforms</div>
       </div>
-      <div class="step" onclick="setStep(2)">
-        <div class="step-num">STEP 03</div>
-        <span class="step-icon">🚀</span>
-        <h3>Posts go live</h3>
-        <p>At the scheduled time, the video uploads to TikTok, Instagram Reels, and YouTube Shorts simultaneously — at full original quality with no manual input required.</p>
+      <div class="stat-box">
+        <div class="stat-num">0</div>
+        <div class="stat-label">Manual steps</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Original quality</div>
       </div>
     </div>
-
-    <div class="demo-area">
-      <div style="text-align:center; margin-bottom: 40px;">
-        <div class="section-label" style="justify-content:center; display:flex;"><span>02</span> Interactive demo</div>
-        <h3 style="font-family:'DM Serif Display',serif; font-size:28px; letter-spacing:-0.02em;">See the workflow in action</h3>
-        <p style="color:var(--muted); font-size:13px; margin-top:10px;">Click the boxes below to simulate adding files, then post to all platforms</p>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:16px;text-transform:uppercase;letter-spacing:0.08em;">Posts to</p>
+    <div class="platform-badges">
+      <div class="platform-badge">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.31 6.31 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.75a4.85 4.85 0 01-1.01-.06z"/></svg>
+        TikTok
       </div>
-
-      <div class="demo-grid">
-        <div class="drop-zone" id="videoZone" onclick="simulateUpload('video')">
-          <input type="file" accept="video/*" onchange="handleFile(event,'video')" onclick="event.stopPropagation()">
-          <span class="drop-zone-icon">🎬</span>
-          <h4>Drop video files here</h4>
-          <p>MP4, MOV — your music video clips</p>
-          <div class="file-list" id="videoList"></div>
-        </div>
-        <div class="drop-zone" id="csvZone" onclick="simulateUpload('csv')">
-          <input type="file" accept=".csv" onchange="handleFile(event,'csv')" onclick="event.stopPropagation()">
-          <span class="drop-zone-icon">📋</span>
-          <h4>Drop schedule CSV here</h4>
-          <p>Your posting schedule with captions and timing</p>
-          <div class="file-list" id="csvList"></div>
-        </div>
+      <div class="platform-badge">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="#E1306C"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+        Instagram Reels
       </div>
-
-      <div class="post-controls">
-        <button class="btn-post" id="postBtn" onclick="startPosting()" disabled>
-          <span id="postBtnIcon">⬆</span>
-          <span id="postBtnText">Add files to continue</span>
-        </button>
+      <div class="platform-badge">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="#FF0000"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        YouTube Shorts
       </div>
+    </div>
+  </div>
+</div>
 
-      <div class="posting-status" id="postingStatus">
-        <div class="platform-row">
-          <div class="platform-name">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.31 6.31 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.75a4.85 4.85 0 01-1.01-.06z"/></svg>
-            TikTok
-          </div>
-          <span class="platform-status" id="tiktokStatus">Waiting</span>
+<!-- DASHBOARD -->
+<section class="dashboard-section" id="dashboard">
+  <div class="inner">
+    <div class="section-header">
+      <div>
+        <div class="section-eyebrow">Your dashboard</div>
+        <h2 class="section-title">Upcoming posts at a glance</h2>
+      </div>
+    </div>
+    <div class="app-shell">
+      <div class="app-titlebar">
+        <div class="dot dot-r"></div>
+        <div class="dot dot-y"></div>
+        <div class="dot dot-g"></div>
+        <div class="app-titlebar-text">Daphnie App — Dashboard</div>
+      </div>
+      <div class="app-body">
+        <div class="app-sidebar">
+          <div class="sidebar-label">Navigation</div>
+          <div class="sidebar-item active">📅 Schedule</div>
+          <div class="sidebar-item">📤 Upload</div>
+          <div class="sidebar-item">📊 Insights</div>
+          <div class="sidebar-label">Account</div>
+          <div class="sidebar-item">🔐 Connected Accounts</div>
+          <div class="sidebar-item">⚙️ Settings</div>
         </div>
-        <div class="platform-row">
-          <div class="platform-name">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="#E1306C"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-            Instagram Reels
+        <div class="app-main">
+          <div class="app-toolbar">
+            <h3>Posting Schedule</h3>
+            <div class="toolbar-actions">
+              <button class="toolbar-btn" onclick="showUploadTab()">+ Add Videos</button>
+              <button class="toolbar-btn toolbar-btn-primary" onclick="showUploadTab()">Upload New</button>
+            </div>
           </div>
-          <span class="platform-status" id="igStatus">Waiting</span>
-        </div>
-        <div class="platform-row">
-          <div class="platform-name">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="#FF0000"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-            YouTube Shorts
-          </div>
-          <span class="platform-status" id="ytStatus">Waiting</span>
-        </div>
-        <div class="success-banner" id="successBanner">
-          <h3>✓ Posted successfully</h3>
-          <p>Your video is now live on TikTok, Instagram, and YouTube. File removed from queue.</p>
+          <table class="schedule-table">
+            <thead>
+              <tr>
+                <th>Date & Time</th>
+                <th>Caption</th>
+                <th>Platforms</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Today, 20:30</strong></td>
+                <td class="caption-cell">For dancing in your bedroom. 28 by Daphnie #indierock #altrock</td>
+                <td><div class="platform-icons"><div class="p-icon p-tt">T</div><div class="p-icon p-ig">I</div><div class="p-icon p-yt">Y</div></div></td>
+                <td><div class="status-dot"><div class="dot-status dot-scheduled"></div> Scheduled</div></td>
+              </tr>
+              <tr>
+                <td><strong>Tomorrow, 09:30</strong></td>
+                <td class="caption-cell">Man's crashing out. 28 by Daphnie #indierock #altrock #indiepop</td>
+                <td><div class="platform-icons"><div class="p-icon p-tt">T</div><div class="p-icon p-ig">I</div><div class="p-icon p-yt">Y</div></div></td>
+                <td><div class="status-dot"><div class="dot-status dot-scheduled"></div> Scheduled</div></td>
+              </tr>
+              <tr>
+                <td>Tomorrow, 20:30</td>
+                <td class="caption-cell">For the weirdos. Alive (not dead) by Daphnie #indiepop #altpop</td>
+                <td><div class="platform-icons"><div class="p-icon p-tt">T</div><div class="p-icon p-ig">I</div><div class="p-icon p-yt">Y</div></div></td>
+                <td><div class="status-dot"><div class="dot-status dot-scheduled"></div> Scheduled</div></td>
+              </tr>
+              <tr style="opacity:0.5">
+                <td>Yesterday, 09:30</td>
+                <td class="caption-cell">Do something different. 28 by Daphnie #indierock #synthpop</td>
+                <td><div class="platform-icons"><div class="p-icon p-tt">T</div><div class="p-icon p-ig">I</div><div class="p-icon p-yt">Y</div></div></td>
+                <td><div class="status-dot"><div class="dot-status dot-live"></div> Live</div></td>
+              </tr>
+              <tr style="opacity:0.5">
+                <td>Yesterday, 20:30</td>
+                <td class="caption-cell">Soundtrack your next era. 28 by Daphnie #indierock #altrock</td>
+                <td><div class="platform-icons"><div class="p-icon p-tt">T</div><div class="p-icon p-ig">I</div><div class="p-icon p-yt">Y</div></div></td>
+                <td><div class="status-dot"><div class="dot-status dot-live"></div> Live</div></td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section class="connect-section" id="connect">
+<!-- UPLOAD -->
+<section class="dashboard-section" id="upload" style="background:var(--surface2);">
+  <div class="inner">
+    <div class="section-header">
+      <div>
+        <div class="section-eyebrow">Get started</div>
+        <h2 class="section-title">Upload your videos</h2>
+      </div>
+    </div>
+    <div class="app-shell">
+      <div class="app-titlebar">
+        <div class="dot dot-r"></div>
+        <div class="dot dot-y"></div>
+        <div class="dot dot-g"></div>
+        <div class="app-titlebar-text">Daphnie App — Upload</div>
+      </div>
+      <div class="app-body">
+        <div class="app-sidebar">
+          <div class="sidebar-label">Navigation</div>
+          <div class="sidebar-item">📅 Schedule</div>
+          <div class="sidebar-item active">📤 Upload</div>
+          <div class="sidebar-item">📊 Insights</div>
+          <div class="sidebar-label">Account</div>
+          <div class="sidebar-item">🔐 Connected Accounts</div>
+          <div class="sidebar-item">⚙️ Settings</div>
+        </div>
+        <div class="app-main">
+          <div class="app-tabs">
+            <div class="app-tab active">Upload Files</div>
+            <div class="app-tab">Schedule</div>
+            <div class="app-tab">Captions</div>
+          </div>
+          <div class="upload-panels">
+            <div class="upload-panel" id="videoPanel" onclick="handleVideoClick()">
+              <input type="file" accept="video/*" onchange="handleVideoFile(event)" onclick="event.stopPropagation()" id="videoInput">
+              <span class="upload-icon">🎬</span>
+              <h4>Drop video files here</h4>
+              <p>MP4, MOV up to 500MB<br>Your original music video clips</p>
+              <div id="videoAdded" style="display:none">
+                <div class="file-added">✓ <span id="videoFileName">video.mp4</span></div>
+              </div>
+            </div>
+            <div class="upload-panel" id="csvPanel" onclick="handleCsvClick()">
+              <input type="file" accept=".csv" onchange="handleCsvFile(event)" onclick="event.stopPropagation()" id="csvInput">
+              <span class="upload-icon">📋</span>
+              <h4>Drop your schedule CSV here</h4>
+              <p>Contains captions, hashtags, post times<br>and first comments for each video</p>
+              <button class="download-link" onclick="downloadTemplate(event)">⬇ Download CSV template</button>
+              <div id="csvAdded" style="display:none">
+                <div class="file-added">✓ <span id="csvFileName">schedule.csv</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="post-now-bar" id="postBar">
+            <div class="post-now-info">
+              <h4 id="postBarTitle">Add your files above to continue</h4>
+              <p id="postBarSub">Videos will be automatically scheduled and posted twice daily</p>
+            </div>
+            <button class="btn-dark" id="publishBtn" onclick="startPublish()" disabled style="opacity:0.4;cursor:not-allowed;">
+              Publish to All Platforms
+            </button>
+          </div>
+          <div class="post-progress" id="postProgress">
+            <div class="progress-platform">
+              <div class="progress-name">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.31 6.31 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.75a4.85 4.85 0 01-1.01-.06z"/></svg>
+                TikTok
+              </div>
+              <span class="progress-status" id="ttStatus">Waiting</span>
+            </div>
+            <div class="progress-platform">
+              <div class="progress-name">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="#E1306C"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                Instagram Reels
+              </div>
+              <span class="progress-status" id="igStatus">Waiting</span>
+            </div>
+            <div class="progress-platform">
+              <div class="progress-name">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="#FF0000"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                YouTube Shorts
+              </div>
+              <span class="progress-status" id="ytStatus">Waiting</span>
+            </div>
+          </div>
+          <div class="post-success" id="postSuccess">
+            <h4>✓ Published successfully</h4>
+            <p>Your video is now live on TikTok, Instagram, and YouTube.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONNECT -->
+<section class="connect-section" id="connect">
+  <div class="connect-inner">
     <div class="connect-text">
-      <div class="section-label"><span>03</span> Connect</div>
-      <h2>Authorise your TikTok account</h2>
-      <p>To enable automatic publishing, connect your TikTok account. The app requests only the permissions it needs.</p>
-      <ul class="permissions-list">
+      <div class="section-eyebrow">Step 1 — Account setup</div>
+      <h2>Connect your TikTok account</h2>
+      <p>To enable automatic publishing, connect your TikTok account using the button on the right. You'll be taken to TikTok to log in and approve access — then redirected straight back here.</p>
+      <ul class="permission-list">
         <li>
-          <div class="perm-icon">📤</div>
+          <div class="perm-icon">🎵</div>
           <div class="perm-text">
-            <strong>video.publish</strong>
-            <span>Upload and publish original music videos to your TikTok account</span>
+            <strong>Publish videos to your account</strong>
+            <span>The app posts your original music video clips to your TikTok profile on a scheduled basis — twice daily at 9:30am and 8:30pm.</span>
           </div>
         </li>
         <li>
-          <div class="perm-icon">👤</div>
+          <div class="perm-icon">🔒</div>
           <div class="perm-text">
-            <strong>user.info.basic</strong>
-            <span>Verify your account identity during the login flow</span>
+            <strong>Verify your identity</strong>
+            <span>Used to confirm which TikTok account you're connecting. No personal data is stored or shared.</span>
+          </div>
+        </li>
+        <li>
+          <div class="perm-icon">🚫</div>
+          <div class="perm-text">
+            <strong>What we don't access</strong>
+            <span>We never read your messages, follower list, analytics, or any data beyond what's needed to post your content.</span>
           </div>
         </li>
       </ul>
-      <p style="font-size:12px;color:var(--muted);">Your credentials are stored locally on your device and never sent to any third-party server. Revoke access anytime from TikTok settings.</p>
+      <p style="font-size:12px;color:var(--muted);">You can disconnect at any time from TikTok Settings → Security → Authorised Apps.</p>
     </div>
-
     <div class="connect-card">
-      <div class="app-icon">🎵</div>
+      <div class="connect-card-icon">🎵</div>
       <h3>Daphnie App</h3>
-      <p>Music video distribution for independent artists. Connect once, post everywhere automatically.</p>
-      <a class="tiktok-login-btn" href="#" id="tiktokLoginBtn" onclick="doTikTokLogin(event)">
+      <p>Connect your TikTok account to start publishing your music automatically.</p>
+      <a class="tiktok-btn" href="#" id="tiktokLoginBtn" onclick="doLogin(event)">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.31 6.31 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.75a4.85 4.85 0 01-1.01-.06z"/></svg>
         Continue with TikTok
       </a>
-      <div class="connect-status" id="connectStatus">✓ Account connected successfully</div>
+      <p class="connect-fine-print">By connecting, you authorise Daphnie App to publish original music videos to your TikTok account. You can disconnect at any time.</p>
+      <div class="connect-success" id="connectSuccess">✓ TikTok account connected successfully!</div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <footer>
-    <div>© 2026 Daphnie App. Built for independent artists.</div>
-    <div style="display:flex;gap:24px;">
-      <a href="contact.html">Contact Us</a>
-      <a href="privacy-policy.html">Privacy Policy</a>
-      <a href="terms-of-service.html">Terms of Service</a>
-    </div>
-  </footer>
+<footer>
+  <div>© 2026 Daphnie App</div>
+  <div style="display:flex;gap:20px;">
+    <a href="privacy-policy.html">Privacy Policy</a>
+    <a href="terms-of-service.html">Terms of Service</a>
+  </div>
+</footer>
 
-  <script>
-    const CLIENT_KEY = 'sbaw2rio5tlosdtzmk';
-    const REDIRECT   = 'https://probablydaphnie-pixel.github.io/daphnie-app/';
-    let videosAdded = false, csvAdded = false;
+<script>
+  const CLIENT_KEY = 'sbaw2rio5tlosdtzmk';
+  const REDIRECT   = 'https://probablydaphnie-pixel.github.io/daphnie-app/';
+  let videoReady = false, csvReady = false;
 
-    function setStep(n) {
-      document.querySelectorAll('.step').forEach((s,i) => s.classList.toggle('active', i===n));
+  function handleVideoClick() {
+    if (!videoReady) document.getElementById('videoInput').click();
+  }
+  function handleCsvClick() {
+    if (!csvReady) document.getElementById('csvInput').click();
+  }
+  function handleVideoFile(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    document.getElementById('videoFileName').textContent = file.name;
+    document.getElementById('videoAdded').style.display = 'block';
+    document.getElementById('videoPanel').classList.add('uploaded');
+    videoReady = true;
+    checkReady();
+  }
+  function handleCsvFile(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    document.getElementById('csvFileName').textContent = file.name;
+    document.getElementById('csvAdded').style.display = 'block';
+    document.getElementById('csvPanel').classList.add('uploaded');
+    csvReady = true;
+    checkReady();
+  }
+  function checkReady() {
+    const btn = document.getElementById('publishBtn');
+    if (videoReady && csvReady) {
+      btn.disabled = false;
+      btn.style.opacity = '1';
+      btn.style.cursor = 'pointer';
+      document.getElementById('postBarTitle').textContent = 'Ready to publish';
+      document.getElementById('postBarSub').textContent = 'Click to post to TikTok, Instagram and YouTube simultaneously';
+    } else if (videoReady || csvReady) {
+      document.getElementById('postBarTitle').textContent = videoReady ? 'Now add your schedule CSV' : 'Now add your video files';
+      document.getElementById('postBarSub').textContent = 'Both files are needed before publishing';
     }
-
-    function handleFile(e, type) {
-      const files = Array.from(e.target.files);
-      if (!files.length) return;
-      markUploaded(type, files.map(f => f.name));
-    }
-
-    function simulateUpload(type) {
-      if (type === 'video') markUploaded('video', ['28_Cross28_V2A.mp4', '28_Mirror_C1B.mp4']);
-      else markUploaded('csv', ['schedule.csv']);
-    }
-
-    function markUploaded(type, names) {
-      const zone = document.getElementById(type==='video' ? 'videoZone' : 'csvZone');
-      const list = document.getElementById(type==='video' ? 'videoList' : 'csvList');
-      zone.classList.add('uploaded');
-      list.innerHTML = names.map(n => `<div class="file-item">${n}</div>`).join('');
-      if (type === 'video') videosAdded = true;
-      else csvAdded = true;
-      checkReady();
-    }
-
-    function checkReady() {
-      const btn = document.getElementById('postBtn');
-      if (videosAdded && csvAdded) {
-        btn.classList.add('ready');
-        btn.disabled = false;
-        document.getElementById('postBtnText').textContent = 'Post to all platforms';
-        document.getElementById('postBtnIcon').textContent = '🚀';
-      }
-    }
-
-    function startPosting() {
-      const btn = document.getElementById('postBtn');
-      btn.classList.remove('ready');
-      btn.disabled = true;
-      document.getElementById('postBtnText').textContent = 'Uploading…';
-      document.getElementById('postBtnIcon').textContent = '⏳';
-      document.getElementById('postingStatus').classList.add('visible');
-
-      [
-        { id: 'tiktokStatus', start: 800,  done: 3200 },
-        { id: 'igStatus',     start: 1200, done: 5800 },
-        { id: 'ytStatus',     start: 600,  done: 2800 },
-      ].forEach(({ id, start, done }) => {
-        setTimeout(() => {
-          document.getElementById(id).textContent = 'Uploading…';
-          document.getElementById(id).className = 'platform-status uploading';
-        }, start);
-        setTimeout(() => {
-          document.getElementById(id).textContent = 'Live ✓';
-          document.getElementById(id).className = 'platform-status done';
-          if (['tiktokStatus','igStatus','ytStatus'].every(i => document.getElementById(i).classList.contains('done'))) {
-            document.getElementById('successBanner').classList.add('visible');
-            document.getElementById('postBtnText').textContent = 'All platforms live ✓';
-            document.getElementById('postBtnIcon').textContent = '✓';
-          }
-        }, done);
-      });
-    }
-
-    function doTikTokLogin(e) {
-      e.preventDefault();
-      window.location.href = `https://www.tiktok.com/v2/auth/authorize/?client_key=${CLIENT_KEY}&scope=video.publish,user.info.basic&response_type=code&redirect_uri=${encodeURIComponent(REDIRECT)}`;
-    }
-
-    const params = new URLSearchParams(window.location.search);
-    if (params.get('code')) {
-      document.getElementById('connectStatus').classList.add('visible');
-      const btn = document.getElementById('tiktokLoginBtn');
-      btn.innerHTML = '✓ Connected';
-      btn.style.cssText = 'background:#00e676;color:#000;display:flex;align-items:center;justify-content:center;gap:12px;border-radius:8px;padding:15px 28px;font-size:14px;font-weight:600;width:100%;cursor:default;';
-      btn.onclick = null;
-      document.getElementById('connect').scrollIntoView({ behavior: 'smooth' });
-    }
-  </script>
+  }
+  function showUploadTab() {
+    document.getElementById('upload').scrollIntoView({ behavior: 'smooth' });
+    // Simulate adding demo files
+    setTimeout(() => {
+      document.getElementById('videoFileName').textContent = '28_Cross28_V2A.mp4';
+      document.getElementById('videoAdded').style.display = 'block';
+      document.getElementById('videoPanel').classList.add('uploaded');
+      videoReady = true;
+      setTimeout(() => {
+        document.getElementById('csvFileName').textContent = 'schedule.csv';
+        document.getElementById('csvAdded').style.display = 'block';
+        document.getElementById('csvPanel').classList.add('uploaded');
+        csvReady = true;
+        checkReady();
+      }, 600);
+    }, 400);
+  }
+  function downloadTemplate(e) {
+    e.stopPropagation();
+    const csv = `Date,Time,song_name,Text,Youtube Video Title,TikTok Title,First Comment Text,Youtube Video Privacy,TikTok Post Privacy,TikTok disable comments,TikTok disable duet,TikTok disable stitch,reel_type,posted,posted_at,video_path,platforms_done
+2026/06/01,09:30,My Song,Your caption here with #hashtags,Your YouTube title here,Your TikTok title here,Your first comment here,public,PUBLIC_TO_EVERYONE,FALSE,FALSE,FALSE,TRIAL,false,,/path/to/your/video.mp4,`;
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'daphnie-schedule-template.csv';
+    a.click();
+  }
+  function startPublish() {
+    document.getElementById('postProgress').classList.add('visible');
+    document.getElementById('publishBtn').disabled = true;
+    document.getElementById('publishBtn').style.opacity = '0.5';
+    document.getElementById('postBarTitle').textContent = 'Publishing now…';
+    [
+      { id: 'ttStatus', start: 500,  done: 3000 },
+      { id: 'igStatus', start: 900,  done: 5500 },
+      { id: 'ytStatus', start: 300,  done: 2500 },
+    ].forEach(({ id, start, done }) => {
+      setTimeout(() => {
+        document.getElementById(id).textContent = 'Uploading…';
+        document.getElementById(id).className = 'progress-status uploading';
+      }, start);
+      setTimeout(() => {
+        document.getElementById(id).textContent = 'Live ✓';
+        document.getElementById(id).className = 'progress-status done';
+        if (['ttStatus','igStatus','ytStatus'].every(i => document.getElementById(i).classList.contains('done'))) {
+          document.getElementById('postSuccess').classList.add('visible');
+          document.getElementById('postBarTitle').textContent = 'Published to all platforms ✓';
+        }
+      }, done);
+    });
+  }
+  function doLogin(e) {
+    e.preventDefault();
+    window.location.href = `https://www.tiktok.com/v2/auth/authorize/?client_key=${CLIENT_KEY}&scope=video.publish,user.info.basic&response_type=code&redirect_uri=${encodeURIComponent(REDIRECT)}`;
+  }
+  // Handle redirect back from TikTok
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('code')) {
+    document.getElementById('connectSuccess').classList.add('visible');
+    const btn = document.getElementById('tiktokLoginBtn');
+    btn.textContent = '✓ Connected';
+    btn.style.background = '#10b981';
+    btn.onclick = null;
+    setTimeout(() => document.getElementById('connect').scrollIntoView({ behavior: 'smooth' }), 300);
+  }
+</script>
 </body>
 </html>
