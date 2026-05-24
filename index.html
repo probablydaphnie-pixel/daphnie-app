@@ -261,7 +261,6 @@
           <div class="sidebar-label">Navigation</div>
           <div class="sidebar-item active">📅 Schedule</div>
           <div class="sidebar-item">📤 Upload</div>
-          <div class="sidebar-item">📊 Insights</div>
           <div class="sidebar-label">Account</div>
           <div class="sidebar-item">🔐 Connected Accounts</div>
           <div class="sidebar-item">⚙️ Settings</div>
@@ -277,7 +276,7 @@
           <table class="schedule-table">
             <thead>
               <tr>
-                <th>Date & Time</th>
+                <th>Date &amp; Time</th>
                 <th>Caption</th>
                 <th>Platforms</th>
                 <th>Status</th>
@@ -343,7 +342,6 @@
           <div class="sidebar-label">Navigation</div>
           <div class="sidebar-item">📅 Schedule</div>
           <div class="sidebar-item active">📤 Upload</div>
-          <div class="sidebar-item">📊 Insights</div>
           <div class="sidebar-label">Account</div>
           <div class="sidebar-item">🔐 Connected Accounts</div>
           <div class="sidebar-item">⚙️ Settings</div>
@@ -355,23 +353,26 @@
             <div class="app-tab">Captions</div>
           </div>
           <div class="upload-panels">
-            <div class="upload-panel" id="videoPanel" onclick="handleVideoClick()">
-              <input type="file" accept="video/*" onchange="handleVideoFile(event)" onclick="event.stopPropagation()" id="videoInput">
+            <div class="upload-panel" id="videoPanel">
+              <input type="file" accept="video/*" multiple onchange="handleVideoFile(event)" id="videoInput">
               <span class="upload-icon">🎬</span>
               <h4>Drop video files here</h4>
               <p>MP4, MOV up to 500MB<br>Your original music video clips</p>
+              <button onclick="handleVideoClick()" style="margin-top:14px;background:var(--accent);color:#fff;border:none;border-radius:4px;padding:8px 18px;font-size:12px;cursor:pointer;font-family:Syne,sans-serif;letter-spacing:0.05em;text-transform:uppercase;">Browse Files</button>
               <div id="videoAdded" style="display:none">
-                <div class="file-added">✓ <span id="videoFileName">video.mp4</span></div>
+                <div id="videoFileNames"></div>
               </div>
             </div>
-            <div class="upload-panel" id="csvPanel" onclick="handleCsvClick()">
+            <div class="upload-panel" id="csvPanel">
               <input type="file" accept=".csv" onchange="handleCsvFile(event)" onclick="event.stopPropagation()" id="csvInput">
               <span class="upload-icon">📋</span>
               <h4>Drop your schedule CSV here</h4>
               <p>Contains captions, hashtags, post times<br>and first comments for each video</p>
-              <button class="download-link" onclick="downloadTemplate(event)">⬇ Download CSV template</button>
+              <button onclick="downloadTemplate(event)" style="margin-top:12px;background:transparent;border:1px solid var(--border);border-radius:4px;padding:7px 14px;font-size:12px;cursor:pointer;font-family:Syne,sans-serif;display:inline-flex;align-items:center;gap:6px;">⬇ Download CSV template</button>
+              <button onclick="handleCsvClick()" style="margin-top:8px;background:var(--accent);color:#fff;border:none;border-radius:4px;padding:8px 18px;font-size:12px;cursor:pointer;font-family:Syne,sans-serif;letter-spacing:0.05em;text-transform:uppercase;">Upload Schedule</button>
               <div id="csvAdded" style="display:none">
                 <div class="file-added">✓ <span id="csvFileName">schedule.csv</span></div>
+                <div style="font-size:11px;color:#10b981;margin-top:4px;padding:0 4px" id="csvSubtext"></div>
               </div>
             </div>
           </div>
@@ -476,30 +477,72 @@
   const REDIRECT   = 'https://probablydaphnie-pixel.github.io/daphnie-app/';
   let videoReady = false, csvReady = false;
 
+  function downloadTemplate(e) {
+    e.stopPropagation();
+    const csv = [
+      'Date,Time,song_name,Text,Youtube Video Title,TikTok Title,First Comment Text,Youtube Video Privacy,TikTok Post Privacy,TikTok disable comments,TikTok disable duet,TikTok disable stitch,reel_type,posted,posted_at,video_path,platforms_done',
+      '2026/06/01,09:30,28,"For dancing in your bedroom. 28 by Daphnie #indierock #altrock #indiepop #electro #synthpop","For dancing in your bedroom. 28 by Daphnie #indierock #altrock #indiepop","For dancing in your bedroom. 28 by Daphnie #indierock #altrock #indiepop","Best TV soundtrack of all time, go",public,PUBLIC_TO_EVERYONE,FALSE,FALSE,FALSE,TRIAL,false,,28_Cross28_V2A.mp4,',
+      '2026/06/01,20:30,28,"For the main characters. 28 by Daphnie #indierock #altrock #indiepop #electro #synthpop","For the main characters. 28 by Daphnie #indierock #altrock #indiepop","For the main characters. 28 by Daphnie #indierock #altrock #indiepop","What song defines your main character era?",public,PUBLIC_TO_EVERYONE,FALSE,FALSE,FALSE,TRIAL,false,,28_Mirror_C1B.mp4,',
+      '2026/06/02,09:30,Alive,"For if you need to revamp your aura. Alive (not dead) by Daphnie #indiepop #altpop #indierock","For if you need to revamp your aura. Alive (not dead) by Daphnie #indiepop #altpop","For if you need to revamp your aura. Alive (not dead) by Daphnie #indiepop","What is your aura today?",public,PUBLIC_TO_EVERYONE,FALSE,FALSE,FALSE,TRIAL,false,,Alive_LIVE_11.mov,',
+    ].join('\r\n');
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'daphnie-schedule-template.csv';
+    a.click();
+  }
+
   function handleVideoClick() {
-    if (!videoReady) document.getElementById('videoInput').click();
+    document.getElementById('videoInput').click();
   }
+
   function handleCsvClick() {
-    if (!csvReady) document.getElementById('csvInput').click();
+    document.getElementById('csvInput').click();
   }
+
   function handleVideoFile(e) {
-    const file = e.target.files[0];
-    if (!file) return;
-    document.getElementById('videoFileName').textContent = file.name;
-    document.getElementById('videoAdded').style.display = 'block';
-    document.getElementById('videoPanel').classList.add('uploaded');
-    videoReady = true;
-    checkReady();
+    e.stopPropagation();
+    const files = Array.from(e.target.files);
+    if (!files.length) return;
+    showFilesAdded('video', files.map(f => f.name));
   }
+
   function handleCsvFile(e) {
+    e.stopPropagation();
     const file = e.target.files[0];
     if (!file) return;
-    document.getElementById('csvFileName').textContent = file.name;
-    document.getElementById('csvAdded').style.display = 'block';
-    document.getElementById('csvPanel').classList.add('uploaded');
-    csvReady = true;
+    showFilesAdded('csv', [file.name]);
+    const reader = new FileReader();
+    reader.onload = function(ev) {
+      const lines = ev.target.result.split('\n').filter(l => l.trim());
+      if (lines.length > 1) {
+        const count = lines.length - 1;
+        document.getElementById('csvSubtext').textContent =
+          count + ' post' + (count !== 1 ? 's' : '') + ' loaded from schedule';
+      }
+    };
+    reader.readAsText(file);
+  }
+
+  function showFilesAdded(type, names) {
+    const isVideo = type === 'video';
+    const panel  = document.getElementById(isVideo ? 'videoPanel' : 'csvPanel');
+    const added  = document.getElementById(isVideo ? 'videoAdded' : 'csvAdded');
+    const nameEl = document.getElementById(isVideo ? 'videoFileNames' : 'csvFileName');
+    panel.classList.add('uploaded');
+    added.style.display = 'block';
+    if (isVideo) {
+      nameEl.innerHTML = names.map(n =>
+        '<div class="file-added" style="margin-top:6px">🎬 ' + n + '</div>'
+      ).join('');
+      videoReady = true;
+    } else {
+      nameEl.textContent = names[0];
+      csvReady = true;
+    }
     checkReady();
   }
+
   function checkReady() {
     const btn = document.getElementById('publishBtn');
     if (videoReady && csvReady) {
@@ -507,48 +550,30 @@
       btn.style.opacity = '1';
       btn.style.cursor = 'pointer';
       document.getElementById('postBarTitle').textContent = 'Ready to publish';
-      document.getElementById('postBarSub').textContent = 'Click to post to TikTok, Instagram and YouTube simultaneously';
-    } else if (videoReady || csvReady) {
-      document.getElementById('postBarTitle').textContent = videoReady ? 'Now add your schedule CSV' : 'Now add your video files';
-      document.getElementById('postBarSub').textContent = 'Both files are needed before publishing';
+      document.getElementById('postBarSub').textContent =
+        'Click to post to TikTok, Instagram and YouTube simultaneously';
+    } else if (videoReady) {
+      document.getElementById('postBarTitle').textContent = 'Now add your schedule CSV';
+      document.getElementById('postBarSub').textContent =
+        'Download the template below, fill in your details, then upload it here';
+    } else if (csvReady) {
+      document.getElementById('postBarTitle').textContent = 'Now add your video files';
+      document.getElementById('postBarSub').textContent =
+        'Drop your MP4 or MOV files into the video panel above';
     }
   }
-  function showUploadTab() {
-    document.getElementById('upload').scrollIntoView({ behavior: 'smooth' });
-    // Simulate adding demo files
-    setTimeout(() => {
-      document.getElementById('videoFileName').textContent = '28_Cross28_V2A.mp4';
-      document.getElementById('videoAdded').style.display = 'block';
-      document.getElementById('videoPanel').classList.add('uploaded');
-      videoReady = true;
-      setTimeout(() => {
-        document.getElementById('csvFileName').textContent = 'schedule.csv';
-        document.getElementById('csvAdded').style.display = 'block';
-        document.getElementById('csvPanel').classList.add('uploaded');
-        csvReady = true;
-        checkReady();
-      }, 600);
-    }, 400);
-  }
-  function downloadTemplate(e) {
-    e.stopPropagation();
-    const csv = `Date,Time,song_name,Text,Youtube Video Title,TikTok Title,First Comment Text,Youtube Video Privacy,TikTok Post Privacy,TikTok disable comments,TikTok disable duet,TikTok disable stitch,reel_type,posted,posted_at,video_path,platforms_done
-2026/06/01,09:30,My Song,Your caption here with #hashtags,Your YouTube title here,Your TikTok title here,Your first comment here,public,PUBLIC_TO_EVERYONE,FALSE,FALSE,FALSE,TRIAL,false,,/path/to/your/video.mp4,`;
-    const blob = new Blob([csv], { type: 'text/csv' });
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = 'daphnie-schedule-template.csv';
-    a.click();
-  }
+
   function startPublish() {
     document.getElementById('postProgress').classList.add('visible');
-    document.getElementById('publishBtn').disabled = true;
-    document.getElementById('publishBtn').style.opacity = '0.5';
+    const btn = document.getElementById('publishBtn');
+    btn.disabled = true;
+    btn.style.opacity = '0.5';
     document.getElementById('postBarTitle').textContent = 'Publishing now…';
+    document.getElementById('postBarSub').textContent = 'Uploading to all platforms simultaneously';
     [
-      { id: 'ttStatus', start: 500,  done: 3000 },
-      { id: 'igStatus', start: 900,  done: 5500 },
-      { id: 'ytStatus', start: 300,  done: 2500 },
+      { id: 'ttStatus', start: 400,  done: 2800 },
+      { id: 'ytStatus', start: 200,  done: 2400 },
+      { id: 'igStatus', start: 800,  done: 5200 },
     ].forEach(({ id, start, done }) => {
       setTimeout(() => {
         document.getElementById(id).textContent = 'Uploading…';
@@ -557,26 +582,42 @@
       setTimeout(() => {
         document.getElementById(id).textContent = 'Live ✓';
         document.getElementById(id).className = 'progress-status done';
-        if (['ttStatus','igStatus','ytStatus'].every(i => document.getElementById(i).classList.contains('done'))) {
+        const allDone = ['ttStatus','igStatus','ytStatus']
+          .every(i => document.getElementById(i).classList.contains('done'));
+        if (allDone) {
           document.getElementById('postSuccess').classList.add('visible');
           document.getElementById('postBarTitle').textContent = 'Published to all platforms ✓';
+          document.getElementById('postBarSub').textContent =
+            'Video is live on TikTok, Instagram and YouTube. Schedule updated.';
         }
       }, done);
     });
   }
+
+  function showUploadTab() {
+    document.getElementById('upload').scrollIntoView({ behavior: 'smooth' });
+  }
+
   function doLogin(e) {
     e.preventDefault();
-    window.location.href = `https://www.tiktok.com/v2/auth/authorize/?client_key=${CLIENT_KEY}&scope=video.publish,user.info.basic&response_type=code&redirect_uri=${encodeURIComponent(REDIRECT)}`;
+    window.location.href =
+      'https://www.tiktok.com/v2/auth/authorize/?client_key=' + CLIENT_KEY +
+      '&scope=video.publish,user.info.basic&response_type=code' +
+      '&redirect_uri=' + encodeURIComponent(REDIRECT);
   }
-  // Handle redirect back from TikTok
+
   const params = new URLSearchParams(window.location.search);
   if (params.get('code')) {
     document.getElementById('connectSuccess').classList.add('visible');
     const btn = document.getElementById('tiktokLoginBtn');
-    btn.textContent = '✓ Connected';
+    btn.innerHTML = '✓ &nbsp;TikTok Connected';
     btn.style.background = '#10b981';
+    btn.style.cursor = 'default';
     btn.onclick = null;
-    setTimeout(() => document.getElementById('connect').scrollIntoView({ behavior: 'smooth' }), 300);
+    window.history.replaceState({}, document.title, window.location.pathname);
+    setTimeout(() => {
+      document.getElementById('connect').scrollIntoView({ behavior: 'smooth' });
+    }, 300);
   }
 </script>
 </body>
