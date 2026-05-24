@@ -322,8 +322,8 @@
 
     <!-- DEMO STEP TRACKER -->
     <div class="demo-steps" id="demoSteps">
-      <div class="demo-step done" id="step1"><span class="demo-step-num">✓</span><span class="demo-step-label">TikTok Connected</span></div>
-      <div class="demo-step active" id="step2"><span class="demo-step-num">2</span><span class="demo-step-label">Download Template</span></div>
+      <div class="demo-step active" id="step1"><span class="demo-step-num">1</span><span class="demo-step-label">Connect TikTok</span></div>
+      <div class="demo-step" id="step2"><span class="demo-step-num">2</span><span class="demo-step-label">Download Template</span></div>
       <div class="demo-step" id="step3"><span class="demo-step-num">3</span><span class="demo-step-label">Upload CSV</span></div>
       <div class="demo-step" id="step4"><span class="demo-step-num">4</span><span class="demo-step-label">Upload Videos</span></div>
       <div class="demo-step" id="step5"><span class="demo-step-num">5</span><span class="demo-step-label">Publish</span></div>
@@ -457,16 +457,16 @@
       </ul>
       <p style="font-size:12px;color:var(--muted);">You can disconnect at any time from TikTok Settings → Security → Authorised Apps.</p>
     </div>
-    <div class="connect-card connected" id="connectCard">
+    <div class="connect-card" id="connectCard">
       <div class="connect-card-icon" id="connectIcon">🎵</div>
       <h3>Daphnie App</h3>
       <p id="connectCardDesc">Connect your TikTok account to start publishing your music automatically.</p>
-      <button class="tiktok-btn connected-btn" id="tiktokLoginBtn">
+      <a class="tiktok-btn" href="#" id="tiktokLoginBtn" onclick="doLogin(event)">
         <svg viewBox="0 0 24 24" fill="currentColor" style="width:18px;height:18px"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.31 6.31 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.75a4.85 4.85 0 01-1.01-.06z"/></svg>
-        ✓ &nbsp;TikTok Connected
-      </button>
-      <p class="connect-fine-print">Your account is connected. You can disconnect at any time from TikTok Settings.</p>
-      <div class="connect-badge visible" id="connectSuccess">✓ TikTok account connected successfully!</div>
+        Continue with TikTok
+      </a>
+      <p class="connect-fine-print">By connecting, you authorise Daphnie App to publish original music videos to your TikTok account. You can disconnect at any time.</p>
+      <div class="connect-badge" id="connectSuccess">✓ TikTok account connected successfully!</div>
     </div>
   </div>
 </section>
@@ -481,7 +481,37 @@
 
 <script>
   // ─── State ───────────────────────────────────────────────────────────────
+  const CLIENT_KEY = 'sbaw2rio5tlosdtzmk';
+  const REDIRECT   = 'https://probablydaphnie-pixel.github.io/daphnie-app/';
   let videoReady = false, csvReady = false, templateDownloaded = false;
+
+  // ─── TikTok OAuth ─────────────────────────────────────────────────────────
+  function doLogin(e) {
+    e.preventDefault();
+    window.location.href =
+      'https://www.tiktok.com/v2/auth/authorize/?client_key=' + CLIENT_KEY +
+      '&scope=video.publish,user.info.basic&response_type=code' +
+      '&redirect_uri=' + encodeURIComponent(REDIRECT);
+  }
+
+  // Handle redirect back from TikTok with auth code
+  (function() {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('code')) {
+      const card  = document.getElementById('connectCard');
+      const btn   = document.getElementById('tiktokLoginBtn');
+      const badge = document.getElementById('connectSuccess');
+      card.classList.add('connected');
+      btn.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor" style="width:18px;height:18px"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.31 6.31 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.75a4.85 4.85 0 01-1.01-.06z"/></svg> ✓ &nbsp;TikTok Connected';
+      btn.style.background = '#10b981';
+      btn.style.cursor = 'default';
+      btn.onclick = null;
+      badge.classList.add('visible');
+      setStep(2);
+      window.history.replaceState({}, document.title, window.location.pathname);
+      setTimeout(() => document.getElementById('connect').scrollIntoView({ behavior: 'smooth' }), 300);
+    }
+  })();
 
   // ─── Navigation helpers ──────────────────────────────────────────────────
   function goToUpload() {
