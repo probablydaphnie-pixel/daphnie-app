@@ -202,7 +202,7 @@
   <div class="hero-left">
     <div class="hero-eyebrow">Music Distribution Platform</div>
     <h1>Post once.<br><em>Reach everywhere.</em></h1>
-    <p class="hero-sub">Daphnie App automatically distributes your original music videos to TikTok, Instagram Reels, and YouTube Shorts — twice a day, every day, without you lifting a finger.</p>
+    <p class="hero-sub">Daphnie App automatically distributes your original music videos to TikTok, Instagram Reels, and YouTube Shorts — as many times as you like, every day, without you lifting a finger.</p>
     <div class="hero-actions">
       <a href="#connect" class="btn-dark">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.31 6.31 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.75a4.85 4.85 0 01-1.01-.06z"/></svg>
@@ -213,7 +213,7 @@
   </div>
   <div class="hero-right">
     <div class="hero-stats">
-      <div class="stat-box"><div class="stat-num">2×</div><div class="stat-label">Daily posts</div></div>
+      <div class="stat-box"><div class="stat-num">∞</div><div class="stat-label">Posts per day</div></div>
       <div class="stat-box"><div class="stat-num">3</div><div class="stat-label">Platforms</div></div>
       <div class="stat-box"><div class="stat-num">0</div><div class="stat-label">Manual steps</div></div>
       <div class="stat-box"><div class="stat-num">100%</div><div class="stat-label">Original quality</div></div>
@@ -383,7 +383,7 @@
           <div class="post-now-bar" id="postBar">
             <div class="post-now-info">
               <h4 id="postBarTitle">Add your files above to continue</h4>
-              <p id="postBarSub">Videos will be automatically scheduled and posted twice daily</p>
+              <p id="postBarSub">Schedule as many posts as you like — we'll handle the rest</p>
             </div>
             <button class="btn-dark" id="publishBtn" onclick="startPublish()" disabled style="opacity:.4;cursor:not-allowed;flex-shrink:0;">
               Publish to All Platforms
@@ -417,7 +417,7 @@
 
           <div class="post-success" id="postSuccess">
             <h4>✓ Published successfully</h4>
-            <p>Your video is now live on TikTok, Instagram Reels, and YouTube Shorts. Schedule has been updated.</p>
+            <p>Your video is now live on TikTok, Instagram Reels, and YouTube Shorts.</p>
           </div>
         </div>
       </div>
@@ -437,7 +437,7 @@
           <div class="perm-icon">🎵</div>
           <div class="perm-text">
             <strong>Publish videos to your account</strong>
-            <span>The app posts your original music video clips to your TikTok profile on a scheduled basis — twice daily at 9:30am and 8:30pm.</span>
+            <span>The app posts your original music video clips to your TikTok profile on your schedule — as many times a day as you want.</span>
           </div>
         </li>
         <li>
@@ -505,12 +505,12 @@
   function downloadTemplate(e) {
     if (e) e.stopPropagation();
     const rows = [
-      ['Date','Time','song_name','Text','Youtube Video Title','TikTok Title','First Comment Text','Youtube Video Privacy','TikTok Post Privacy','TikTok disable comments','TikTok disable duet','TikTok disable stitch','reel_type','posted','posted_at','video_path','platforms_done'],
-      ['2026/06/01','09:30','28','For dancing in your bedroom. 28 by Daphnie #indierock #altrock #indiepop #electro #synthpop','For dancing in your bedroom. 28 by Daphnie #indierock #altrock #indiepop','For dancing in your bedroom. 28 by Daphnie #indierock #altrock #indiepop','Best TV soundtrack of all time, go','public','PUBLIC_TO_EVERYONE','FALSE','FALSE','FALSE','TRIAL','false','','28_Cross28_V2A.mp4',''],
-      ['2026/06/01','20:30','28','For the main characters. 28 by Daphnie #indierock #altrock #indiepop #electro #synthpop','For the main characters. 28 by Daphnie #indierock #altrock #indiepop','For the main characters. 28 by Daphnie #indierock #altrock #indiepop','What song defines your main character era?','public','PUBLIC_TO_EVERYONE','FALSE','FALSE','FALSE','TRIAL','false','','28_Mirror_C1B.mp4',''],
-      ['2026/06/02','09:30','Alive','For if you need to revamp your aura. Alive (not dead) by Daphnie #indiepop #altpop #indierock','For if you need to revamp your aura. Alive (not dead) by Daphnie #indiepop #altpop','For if you need to revamp your aura. Alive (not dead) by Daphnie #indiepop','What is your aura today?','public','PUBLIC_TO_EVERYONE','FALSE','FALSE','FALSE','TRIAL','false','','Alive_LIVE_11.mov',''],
-      ['2026/06/02','20:30','28','Man\'s crashing out. 28 by Daphnie #indierock #altrock #indiepop #electro','Man\'s crashing out. 28 by Daphnie #indierock #altrock #indiepop','Man\'s crashing out. 28 by Daphnie #indierock','Describe your week in a song title','public','PUBLIC_TO_EVERYONE','FALSE','FALSE','FALSE','TRIAL','false','','28_Cross28_V2B.mp4',''],
-      ['2026/06/03','09:30','Alive','For the weirdos. Alive (not dead) by Daphnie #indiepop #altpop #indierock','For the weirdos. Alive (not dead) by Daphnie #indiepop #altpop','For the weirdos. Alive (not dead) by Daphnie #indiepop','What song are you listening to on repeat?','public','PUBLIC_TO_EVERYONE','FALSE','FALSE','FALSE','TRIAL','false','','Alive_Bedroom_03.mov',''],
+      ['Date','Time','song_name','Caption','First Comment Text','TikTok Post Privacy','TikTok disable comments','TikTok disable duet','TikTok disable stitch','reel_type'],
+      ['2026/06/01','09:30','28','For dancing in your bedroom. 28 by Daphnie #indierock #altrock #indiepop #electro #synthpop','Best TV soundtrack of all time, go','PUBLIC_TO_EVERYONE','FALSE','FALSE','FALSE','TRIAL'],
+      ['2026/06/01','20:30','28','For the main characters. 28 by Daphnie #indierock #altrock #indiepop #electro #synthpop','What song defines your main character era?','PUBLIC_TO_EVERYONE','FALSE','FALSE','FALSE','TRIAL'],
+      ['2026/06/02','09:30','Alive','For if you need to revamp your aura. Alive (not dead) by Daphnie #indiepop #altpop #indierock','What is your aura today?','PUBLIC_TO_EVERYONE','FALSE','FALSE','FALSE','TRIAL'],
+      ['2026/06/02','20:30','28','Man\'s crashing out. 28 by Daphnie #indierock #altrock #indiepop #electro','Describe your week in a song title','PUBLIC_TO_EVERYONE','FALSE','FALSE','FALSE','TRIAL'],
+      ['2026/06/03','09:30','Alive','For the weirdos. Alive (not dead) by Daphnie #indiepop #altpop #indierock','What song are you listening to on repeat?','PUBLIC_TO_EVERYONE','FALSE','FALSE','FALSE','TRIAL'],
     ];
     const csv = rows.map(r => r.map(cell => cell.includes(',') || cell.includes('"') ? '"' + cell.replace(/"/g,'""') + '"' : cell).join(',')).join('\r\n');
     const blob = new Blob([csv], { type: 'text/csv' });
@@ -622,7 +622,7 @@
         if (allDone) {
           document.getElementById('postSuccess').classList.add('visible');
           document.getElementById('postBarTitle').textContent = 'Published to all platforms ✓';
-          document.getElementById('postBarSub').textContent = 'Your video is live on TikTok, Instagram and YouTube. Schedule updated.';
+          document.getElementById('postBarSub').textContent = 'Your video is live on TikTok, Instagram and YouTube.';
           document.getElementById('postBar').classList.add('ready');
           // Mark final step done
           const el5 = document.getElementById('step5');
